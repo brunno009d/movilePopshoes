@@ -1,0 +1,116 @@
+package com.example.movilepopshoes.ui.screen
+
+import androidx.compose.runtime.getValue
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.movilepopshoes.viewmodel.UsuarioViewModel
+
+@Composable
+fun registroScreen(
+    navController: NavController,
+    viewModel: UsuarioViewModel
+) {
+    val estado by viewModel.estado.collectAsState()
+
+    Column (
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ){
+        OutlinedTextField(
+            value = estado.nombre,
+            onValueChange = viewModel::onNombreChange,
+            label = { Text("Nombre") },
+            isError = estado.errores.nombre != null,
+            supportingText = {
+                estado.errores.nombre?.let {
+                    Text(it, color = MaterialTheme.colorScheme.error)
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+
+        //campo correo
+        OutlinedTextField(
+            value = estado.correo,
+            onValueChange = viewModel::onCorreoChange,
+            label = { Text("Correo Electronico")},
+            isError = estado.errores.correo != null,
+            supportingText = {
+                estado.errores.correo?.let {
+                    Text(it, color = MaterialTheme.colorScheme.error)
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+
+        //estado clave
+        OutlinedTextField(
+            value = estado.clave,
+            onValueChange = viewModel::onCorreoChange,
+            label = { Text("Contraseña")},
+            isError = estado.errores.clave != null,
+            supportingText = {
+                estado.errores.clave?.let {
+                    Text(it, color = MaterialTheme.colorScheme.error)
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+
+        // campo direccion
+        //estado clave
+        OutlinedTextField(
+            value = estado.direccion,
+            onValueChange = viewModel::onCorreoChange,
+            label = { Text("Direccion")},
+            isError = estado.errores.direccion != null,
+            supportingText = {
+                estado.errores.direccion?.let {
+                    Text(it, color = MaterialTheme.colorScheme.error)
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        )
+
+        //estado clave
+        Row (verticalAlignment = Alignment.CenterVertically){
+            Checkbox(
+                checked = estado.aceptaTerminos,
+                onCheckedChange = viewModel::onAceptarTerminosChange
+            )
+            Spacer(Modifier.width(8.dp))
+            Text("Acepto los terminos y condiciones")
+        }
+
+        Button(
+            onClick = {
+                if (viewModel.validarFormulario()) {
+                    navController.navigate("resumen")
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text("Registrar")
+        }
+
+
+    }
+}

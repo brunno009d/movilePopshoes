@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.Home.route,
+                        startDestination = Screen.Registro.route,
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable(route = Screen.Home.route) {
@@ -67,6 +67,12 @@ class MainActivity : ComponentActivity() {
                             ProfileScreen(navController = navController, viewModel = viewModel)
                         }
                         composable(route = Screen.Settings.route) {
+                            ProfileScreen(navController = navController, viewModel = viewModel)
+                        }
+                        composable(route = Screen.Registro.route) {
+                            RegistroScree(navController = navController, viewModel = viewModel)
+                        }
+                        composable(route = Screen.Resumen.route) {
                             ProfileScreen(navController = navController, viewModel = viewModel)
                         }
                     }
