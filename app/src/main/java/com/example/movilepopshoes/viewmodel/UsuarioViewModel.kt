@@ -31,7 +31,7 @@ class UsuarioViewModel: ViewModel() {
     }
 
     // Actualizar el campo direccion
-    fun onDireccionChancge(valor: String){
+    fun onDireccionChange(valor: String){
         _estado.update { it.copy(direccion = valor, errores = it.errores.copy(direccion = null)) }
     }
 

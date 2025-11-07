@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -22,7 +23,7 @@ import androidx.navigation.NavController
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
 @Composable
-fun registroScreen(
+fun RegistroScreen(
     navController: NavController,
     viewModel: UsuarioViewModel
 ) {
@@ -44,7 +45,7 @@ fun registroScreen(
                     Text(it, color = MaterialTheme.colorScheme.error)
                 }
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         )
 
         //campo correo
@@ -58,13 +59,13 @@ fun registroScreen(
                     Text(it, color = MaterialTheme.colorScheme.error)
                 }
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         )
 
         //estado clave
         OutlinedTextField(
             value = estado.clave,
-            onValueChange = viewModel::onCorreoChange,
+            onValueChange = viewModel::onClaveChange,
             label = { Text("Contraseña")},
             isError = estado.errores.clave != null,
             supportingText = {
@@ -72,14 +73,14 @@ fun registroScreen(
                     Text(it, color = MaterialTheme.colorScheme.error)
                 }
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         )
 
         // campo direccion
         //estado clave
         OutlinedTextField(
             value = estado.direccion,
-            onValueChange = viewModel::onCorreoChange,
+            onValueChange = viewModel::onDireccionChange,
             label = { Text("Direccion")},
             isError = estado.errores.direccion != null,
             supportingText = {
@@ -87,7 +88,7 @@ fun registroScreen(
                     Text(it, color = MaterialTheme.colorScheme.error)
                 }
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         )
 
         //estado clave
@@ -103,10 +104,10 @@ fun registroScreen(
         Button(
             onClick = {
                 if (viewModel.validarFormulario()) {
-                    navController.navigate("resumen")
+                    navController.navigate("resumen_page")
                 }
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text("Registrar")
         }

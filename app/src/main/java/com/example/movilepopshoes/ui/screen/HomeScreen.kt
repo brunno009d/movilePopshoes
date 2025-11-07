@@ -53,6 +53,14 @@ fun HomeScreen(
                         viewModel.navigateTo(Screen.Profile)
                     }
                 )
+                NavigationDrawerItem(
+                    label = {Text("Reigitro")},
+                    selected = false,
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                        viewModel.navigateTo(Screen.Registro)
+                    }
+                )
             }
         }
     ) {
