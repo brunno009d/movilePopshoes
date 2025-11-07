@@ -61,13 +61,22 @@ fun HomeScreen(
                         viewModel.navigateTo(Screen.Registro)
                     }
                 )
+
+                NavigationDrawerItem(
+                    label = {Text("Inicio Sesion")},
+                    selected = false,
+                    onClick = {
+                        scope.launch { drawerState.close() }
+                        viewModel.navigateTo(Screen.Inicio)
+                    }
+                )
             }
         }
     ) {
         Scaffold (
             topBar = {
                 TopAppBar(
-                    title = { Text("Pantalla home")},
+                    title = { Text("PopShoes")},
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch { drawerState.open() }

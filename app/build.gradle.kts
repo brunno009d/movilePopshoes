@@ -40,7 +40,9 @@ android {
 }
 
 dependencies {
-
+    // data store
+    implementation("androidx.datastore:datastore:1.1.7")
+    //
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2,8,0-re02")

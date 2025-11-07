@@ -17,6 +17,7 @@ import com.example.movilepopshoes.navigation.NavigationEvent
 import com.example.movilepopshoes.navigation.Screen
 import com.example.movilepopshoes.ui.screen.ProfileScreen
 import com.example.movilepopshoes.ui.screen.HomeScreen
+import com.example.movilepopshoes.ui.screen.InicioSesionScreen
 import com.example.movilepopshoes.ui.screen.SettingsScreen
 import com.example.movilepopshoes.ui.screen.ResumenScreen
 import com.example.movilepopshoes.ui.screen.RegistroScreen
@@ -79,6 +80,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.Resumen.route) {
                             ResumenScreen(viewModel = usuarioViewModel)
+                        }
+                        composable(route = Screen.Inicio.route) {
+                            InicioSesionScreen(navController = navController, viewModel = usuarioViewModel)
                         }
                     }
                 }
