@@ -18,6 +18,7 @@ import com.example.movilepopshoes.navigation.BottomBar
 import com.example.movilepopshoes.navigation.BottomNavItem
 import com.example.movilepopshoes.navigation.NavigationEvent
 import com.example.movilepopshoes.navigation.Screen
+import com.example.movilepopshoes.ui.screen.CarritoScreen
 import com.example.movilepopshoes.ui.screen.ProfileScreen
 import com.example.movilepopshoes.ui.screen.HomeScreen
 import com.example.movilepopshoes.ui.screen.InicioSesionScreen
@@ -95,6 +96,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = Screen.Inicio.route) {
                             InicioSesionScreen(navController = navController, viewModel = usuarioViewModel)
+                        }
+                        composable(route = Screen.Carrito.route) {
+                            CarritoScreen(navController = navController)
                         }
                     }
                 }
