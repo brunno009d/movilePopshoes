@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
@@ -13,6 +14,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.movilepopshoes.navigation.BottomBar
+import com.example.movilepopshoes.navigation.BottomNavItem
 import com.example.movilepopshoes.navigation.NavigationEvent
 import com.example.movilepopshoes.navigation.Screen
 import com.example.movilepopshoes.ui.screen.ProfileScreen
@@ -59,7 +62,16 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Scaffold(
-                    modifier = Modifier.fillMaxSize()
+                    bottomBar = {
+                        BottomBar(
+                            navController = navController,
+                            items = listOf(
+                                BottomNavItem.Carrito,
+                                BottomNavItem.Home,
+                                BottomNavItem.Perfil
+                            )
+                        )
+                    }
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
