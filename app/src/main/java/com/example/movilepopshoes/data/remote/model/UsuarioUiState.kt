@@ -1,4 +1,4 @@
-package com.example.movilepopshoes.remote.model
+package com.example.movilepopshoes.data.remote.model
 
 data class UsuarioUiState (
     val nombre: String = "",
@@ -6,7 +6,8 @@ data class UsuarioUiState (
     val clave: String = "",
     val direccion: String = "",
     val aceptaTerminos: Boolean = false,
-    val errores: UsuarioErrores = UsuarioErrores()
+    val errores: UsuarioErrores = UsuarioErrores(),
+    val rol: Int = 1
 )
 {
 

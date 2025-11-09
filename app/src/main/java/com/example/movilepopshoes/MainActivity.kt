@@ -83,7 +83,7 @@ class MainActivity : ComponentActivity() {
                                 HomeScreen(navController = navController, viewModel = mainViewModel)
                         }
                         composable(route = Screen.Profile.route) {
-                            ProfileScreen(navController = navController, viewModel = mainViewModel)
+                            ProfileScreen(viewModel = usuarioViewModel)
                         }
                         composable(route = Screen.Settings.route) {
                             SettingsScreen(navController = navController, viewModel = mainViewModel)

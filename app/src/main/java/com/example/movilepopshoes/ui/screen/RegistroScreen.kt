@@ -93,7 +93,7 @@ fun RegistroScreen(
             modifier = Modifier.fillMaxWidth()
         )
 
-        //estado clave
+        //estado terminos
         Row (verticalAlignment = Alignment.CenterVertically){
             Checkbox(
                 checked = estado.aceptaTerminos,
@@ -106,6 +106,7 @@ fun RegistroScreen(
         Button(
             onClick = {
                 if (viewModel.validarFormulario()) {
+
                     mainViewModel.navigateTo(Screen.Resumen)
                 }
             },

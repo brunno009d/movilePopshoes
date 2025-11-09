@@ -1,11 +1,15 @@
 package com.example.movilepopshoes.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.movilepopshoes.remote.model.UsuarioErrores
-import com.example.movilepopshoes.remote.model.UsuarioUiState
+import androidx.lifecycle.viewModelScope
+import com.example.movilepopshoes.data.remote.model.Usuario
+import com.example.movilepopshoes.data.remote.model.UsuarioErrores
+import com.example.movilepopshoes.data.remote.model.UsuarioUiState
+import com.example.movilepopshoes.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class UsuarioViewModel: ViewModel() {
 
