@@ -20,12 +20,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.movilepopshoes.navigation.Screen
+import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
 @Composable
 fun RegistroScreen(
-    navController: NavController,
-    viewModel: UsuarioViewModel
+    viewModel: UsuarioViewModel,
+    mainViewModel: MainViewModel
 ) {
     val estado by viewModel.estado.collectAsState()
 
@@ -104,7 +106,7 @@ fun RegistroScreen(
         Button(
             onClick = {
                 if (viewModel.validarFormulario()) {
-                    navController.navigate("resumen_page")
+                    mainViewModel.navigateTo(Screen.Resumen)
                 }
             },
             modifier = Modifier.fillMaxWidth()

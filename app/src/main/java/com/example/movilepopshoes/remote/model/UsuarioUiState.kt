@@ -1,4 +1,4 @@
-package com.example.movilepopshoes.model
+package com.example.movilepopshoes.remote.model
 
 data class UsuarioUiState (
     val nombre: String = "",

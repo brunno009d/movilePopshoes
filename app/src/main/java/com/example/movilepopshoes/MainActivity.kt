@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                             SettingsScreen(navController = navController, viewModel = mainViewModel)
                         }
                         composable(route = Screen.Registro.route) {
-                            RegistroScreen(navController = navController, viewModel = usuarioViewModel)
+                            RegistroScreen(mainViewModel = mainViewModel, viewModel = usuarioViewModel)
                         }
                         composable(route = Screen.Resumen.route) {
                             ResumenScreen(viewModel = usuarioViewModel)
