@@ -9,7 +9,9 @@ import com.example.movilepopshoes.data.remote.dao.UserDao
 import com.example.movilepopshoes.data.remote.model.Calzado
 import com.example.movilepopshoes.data.remote.model.Usuario
 
-@Database(entities = [Usuario::class, Calzado::class], version = 1)
+// --- CAMBIO 1 ---
+// La versión se incrementa a 2 porque cambiamos la tabla "calzado"
+@Database(entities = [Usuario::class, Calzado::class], version = 2)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun calzadoDao(): CalzadoDao
@@ -23,7 +25,12 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "popshoes_db"
-                ).build().also { INSTANCE = it }
+                )
+                    // --- CAMBIO 2 ---
+                    // Le dice a Room que destruya y recree la BD si la versión cambia.
+                    // Esto es perfecto para desarrollo.
+                    .fallbackToDestructiveMigration()
+                    .build().also { INSTANCE = it }
             }
         }
     }
