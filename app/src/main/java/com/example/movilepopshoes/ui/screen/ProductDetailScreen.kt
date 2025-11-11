@@ -16,15 +16,18 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.movilepopshoes.viewmodel.CatalogoViewModel // <-- IMPORTAR
 import com.example.movilepopshoes.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
-    viewModel: MainViewModel
+    // --- CORRECCIÓN: Recibir ambos VMs ---
+    mainViewModel: MainViewModel,
+    catalogoViewModel: CatalogoViewModel
 ) {
-    // Obtenemos el calzado seleccionado del ViewModel
-    val calzado by viewModel.calzadoSeleccionado.collectAsState()
+    // --- Usar el catalogoViewModel ---
+    val calzado by catalogoViewModel.calzadoSeleccionado.collectAsState()
 
     Scaffold(
         topBar = {
@@ -33,7 +36,8 @@ fun ProductDetailScreen(
                     Text(calzado?.nombre ?: "Detalle del Producto")
                 },
                 navigationIcon = {
-                    IconButton(onClick = { viewModel.navigateUp() }) {
+                    // --- Usar el mainViewModel ---
+                    IconButton(onClick = { mainViewModel.navigateUp() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Volver atrás"
@@ -54,13 +58,13 @@ fun ProductDetailScreen(
                 CircularProgressIndicator()
                 Text("Cargando producto...")
             } else {
-                // Usamos !! porque ya comprobamos que no es nulo
+
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                         .padding(16.dp),
-                    horizontalAlignment = Alignment.Start // Alineamos al inicio
+                    horizontalAlignment = Alignment.Start
                 ) {
                     // 1. Imagen
                     Image(
@@ -69,7 +73,7 @@ fun ProductDetailScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(1f)
-                            .align(Alignment.CenterHorizontally), // Centramos solo la imagen
+                            .align(Alignment.CenterHorizontally),
                         contentScale = ContentScale.Crop
                     )
 
@@ -93,7 +97,7 @@ fun ProductDetailScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // 4. Talla (¡Usando tu campo!)
+                    // 4. Talla
                     Text(
                         text = "Talla: ${calzado!!.talla}",
                         style = MaterialTheme.typography.bodyLarge,
