@@ -51,7 +51,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:1.7.2")
 
     // ViewModel y LiveData
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2,8,0-re02")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-re02")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
 
     // Room (Base de datos)

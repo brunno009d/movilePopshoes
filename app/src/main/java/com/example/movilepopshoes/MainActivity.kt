@@ -16,6 +16,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument // <-- ASEGÚRATE DE IMPORTAR ESTO
+import com.example.movilepopshoes.data.remote.AppDatabase
+import com.example.movilepopshoes.data.remote.repository.UserRepository
 import com.example.movilepopshoes.navigation.BottomBar
 import com.example.movilepopshoes.navigation.BottomNavItem
 import com.example.movilepopshoes.navigation.NavigationEvent
@@ -31,6 +33,7 @@ import com.example.movilepopshoes.ui.screen.ResumenScreen
 import com.example.movilepopshoes.ui.screen.RegistroScreen
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
+import com.example.movilepopshoes.viewmodel.ViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -40,8 +43,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val mainViewModel: MainViewModel = viewModel()
-            val usuarioViewModel: UsuarioViewModel = viewModel()
             val navController = rememberNavController()
+
+            //Para la base de datos
+            val db = AppDatabase.getDatabase(applicationContext)
+            val userDao = db.userDao()
+            val repository = UserRepository(userDao)
+            val usuarioViewModel: UsuarioViewModel = viewModel(factory = ViewModelFactory(repository))
+
 
             LaunchedEffect(key1 = Unit) {
                 mainViewModel.navigationEvents.collectLatest { event ->

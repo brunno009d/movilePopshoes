@@ -5,13 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.movilepopshoes.data.remote.model.Usuario
 import com.example.movilepopshoes.data.remote.model.UsuarioErrores
 import com.example.movilepopshoes.data.remote.model.UsuarioUiState
-import com.example.movilepopshoes.repository.UserRepository
+import com.example.movilepopshoes.data.remote.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class UsuarioViewModel: ViewModel() {
+class UsuarioViewModel(
+    private val repository: UserRepository
+): ViewModel() {
 
     //estado interno mutable
     private val _estado = MutableStateFlow(UsuarioUiState())
@@ -63,5 +65,20 @@ class UsuarioViewModel: ViewModel() {
         _estado.update { it.copy(errores = errores) }
 
         return !hayErrores
+    }
+
+    fun registrarUsuario(){
+        viewModelScope.launch {
+            val e = _estado.value
+            val u = Usuario(
+                nombre = e.nombre,
+                correo = e.correo,
+                clave = e.clave,
+                direccion = e.direccion,
+                aceptaTerminos = e.aceptaTerminos
+            )
+
+            repository.registrarUsuario(u)
+        }
     }
 }

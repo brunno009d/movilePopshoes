@@ -106,7 +106,7 @@ fun RegistroScreen(
         Button(
             onClick = {
                 if (viewModel.validarFormulario()) {
-
+                    viewModel.registrarUsuario()
                     mainViewModel.navigateTo(Screen.Resumen)
                 }
             },

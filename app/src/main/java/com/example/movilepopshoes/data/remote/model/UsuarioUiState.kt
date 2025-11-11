@@ -7,7 +7,7 @@ data class UsuarioUiState (
     val direccion: String = "",
     val aceptaTerminos: Boolean = false,
     val errores: UsuarioErrores = UsuarioErrores(),
-    val rol: Int = 1
+    val logueado: Boolean = false
 )
 {
 
