@@ -11,7 +11,7 @@ import com.example.movilepopshoes.navigation.AppNavigationGraph
 import com.example.movilepopshoes.navigation.BottomBar
 import com.example.movilepopshoes.navigation.BottomNavItem
 import com.example.movilepopshoes.navigation.NavigationEvent
-import com.example.movilepopshoes.viewmodel.CatalogoViewModel // <-- IMPORTAR NUEVO VM
+import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import androidx.compose.material3.ExperimentalMaterial3Api
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
@@ -25,12 +25,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             val mainViewModel: MainViewModel = viewModel()
             val usuarioViewModel: UsuarioViewModel = viewModel()
-            // --- AÑADIR NUEVO VIEWMODEL ---
             val catalogoViewModel: CatalogoViewModel = viewModel()
 
             val navController = rememberNavController()
 
-            // (Tu LaunchedEffect de navegación no cambia)
+
             LaunchedEffect(key1 = Unit) {
                 mainViewModel.navigationEvents.collectLatest { event ->
                     when (event) {
@@ -66,12 +65,11 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             ) { innerPadding ->
-                // --- PASAR EL NUEVO VIEWMODEL AL GRÁFICO ---
                 AppNavigationGraph(
                     navController = navController,
                     mainViewModel = mainViewModel,
                     usuarioViewModel = usuarioViewModel,
-                    catalogoViewModel = catalogoViewModel, // <-- PASAR NUEVO VM
+                    catalogoViewModel = catalogoViewModel,
                     innerPadding = innerPadding
                 )
             }

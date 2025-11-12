@@ -1,6 +1,6 @@
 package com.example.movilepopshoes.viewmodel
 
-import androidx.lifecycle.ViewModel // <-- Ya no es AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movilepopshoes.navigation.NavigationEvent
 import com.example.movilepopshoes.navigation.Screen

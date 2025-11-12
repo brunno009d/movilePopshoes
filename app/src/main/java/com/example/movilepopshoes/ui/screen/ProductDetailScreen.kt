@@ -16,17 +16,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.movilepopshoes.viewmodel.CatalogoViewModel // <-- IMPORTAR
+import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(
-    // --- CORRECCIÓN: Recibir ambos VMs ---
     mainViewModel: MainViewModel,
     catalogoViewModel: CatalogoViewModel
 ) {
-    // --- Usar el catalogoViewModel ---
     val calzado by catalogoViewModel.calzadoSeleccionado.collectAsState()
 
     Scaffold(
@@ -36,7 +34,6 @@ fun ProductDetailScreen(
                     Text(calzado?.nombre ?: "Detalle del Producto")
                 },
                 navigationIcon = {
-                    // --- Usar el mainViewModel ---
                     IconButton(onClick = { mainViewModel.navigateUp() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -79,7 +76,7 @@ fun ProductDetailScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // 2. Nombre
+                    //  Nombre
                     Text(
                         text = calzado!!.nombre,
                         style = MaterialTheme.typography.headlineSmall,
@@ -88,7 +85,7 @@ fun ProductDetailScreen(
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // 3. Precio
+                    //  Precio
                     Text(
                         text = "$${calzado!!.precio}",
                         style = MaterialTheme.typography.headlineLarge,
@@ -97,7 +94,7 @@ fun ProductDetailScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // 4. Talla
+                    //  Talla
                     Text(
                         text = "Talla: ${calzado!!.talla}",
                         style = MaterialTheme.typography.bodyLarge,
@@ -106,7 +103,7 @@ fun ProductDetailScreen(
 
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    // 5. Descripción
+                    //  Descripcion
                     Text(
                         text = calzado!!.descripcion,
                         style = MaterialTheme.typography.bodyLarge
@@ -114,7 +111,7 @@ fun ProductDetailScreen(
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    // 6. Botón Agregar al Carrito
+                    //  Agregar al carrito
                     Button(
                         onClick = { /* TODO: Lógica para agregar al carrito */ },
                         modifier = Modifier

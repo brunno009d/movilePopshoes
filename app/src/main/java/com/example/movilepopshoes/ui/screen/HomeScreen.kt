@@ -1,6 +1,6 @@
 package com.example.movilepopshoes.ui.screen
 
-// (Otras importaciones)
+
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -39,14 +39,13 @@ import androidx.navigation.NavController
 import com.example.movilepopshoes.navigation.Screen
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
-import com.example.movilepopshoes.viewmodel.CatalogoViewModel // <-- IMPORTAR
+import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.ui.components.ProductCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
-    // --- CORRECCIÓN: Recibir ambos VMs ---
     mainViewModel: MainViewModel,
     catalogoViewModel: CatalogoViewModel
 ) {
@@ -99,7 +98,6 @@ fun HomeScreen(
             }
         ) { innerPadding ->
 
-            // --- Usar el catalogoViewModel ---
             val calzados by catalogoViewModel.calzados.collectAsState()
 
             Column(

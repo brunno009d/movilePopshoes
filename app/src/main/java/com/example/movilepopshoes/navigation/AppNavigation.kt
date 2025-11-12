@@ -26,7 +26,7 @@ fun AppNavigationGraph(
     navController: NavHostController,
     mainViewModel: MainViewModel,
     usuarioViewModel: UsuarioViewModel,
-    catalogoViewModel: CatalogoViewModel, // <-- CORRECCIÓN: Recibir el parámetro
+    catalogoViewModel: CatalogoViewModel,
     innerPadding: PaddingValues
 ) {
     NavHost(
@@ -34,16 +34,16 @@ fun AppNavigationGraph(
         startDestination = Screen.Home.route,
         modifier = Modifier.padding(innerPadding)
     ) {
-        // --- Ruta Home ---
+        // Ruta Home
         composable(route = Screen.Home.route) {
             HomeScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
-                catalogoViewModel = catalogoViewModel // <-- Pasarlo a HomeScreen
+                catalogoViewModel = catalogoViewModel
             )
         }
 
-        // (Otras rutas...)
+
         composable(route = Screen.Profile.route) {
             ProfileScreen(viewModel = usuarioViewModel)
         }
@@ -63,7 +63,7 @@ fun AppNavigationGraph(
             CarritoScreen(navController = navController)
         }
 
-        // --- Ruta de Detalle ---
+        //  Ruta  Detalle
         composable(
             route = Screen.Detail.route,
             arguments = listOf(navArgument("itemId") { type = NavType.IntType })
@@ -72,12 +72,12 @@ fun AppNavigationGraph(
             val itemId = backStackEntry.arguments?.getInt("itemId")
             requireNotNull(itemId) { "El itemId no puede ser nulo" }
 
-            // Usamos el catalogoViewModel para seleccionar el calzado
+
             catalogoViewModel.selectCalzado(itemId)
 
             ProductDetailScreen(
                 mainViewModel = mainViewModel,
-                catalogoViewModel = catalogoViewModel // <-- Pasarlo a ProductDetailScreen
+                catalogoViewModel = catalogoViewModel
             )
         }
     }
