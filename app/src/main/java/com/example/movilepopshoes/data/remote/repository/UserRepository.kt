@@ -1,8 +1,7 @@
-package com.example.movilepopshoes.repository
+package com.example.movilepopshoes.data.remote.repository
 
 import com.example.movilepopshoes.data.remote.dao.UserDao
 import com.example.movilepopshoes.data.remote.model.Usuario
-
 
 class UserRepository(private  val userDao: UserDao){
 

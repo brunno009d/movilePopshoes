@@ -15,6 +15,7 @@ import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import androidx.compose.material3.ExperimentalMaterial3Api
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
+import com.example.movilepopshoes.viewmodel.ViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -26,8 +27,14 @@ class MainActivity : ComponentActivity() {
             val mainViewModel: MainViewModel = viewModel()
             val usuarioViewModel: UsuarioViewModel = viewModel()
             val catalogoViewModel: CatalogoViewModel = viewModel()
-
             val navController = rememberNavController()
+            
+            //Para la base de datos
+            val db = AppDatabase.getDatabase(applicationContext)
+            val userDao = db.userDao()
+            val repository = UserRepository(userDao)
+            val dataStore = EstadoDataStore(applicationContext)
+            val usuarioViewModel: UsuarioViewModel = viewModel(factory = ViewModelFactory(repository, dataStore))
 
 
             LaunchedEffect(key1 = Unit) {

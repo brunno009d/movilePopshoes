@@ -106,8 +106,8 @@ fun RegistroScreen(
         Button(
             onClick = {
                 if (viewModel.validarFormulario()) {
-
-                    mainViewModel.navigateTo(Screen.Resumen)
+                    viewModel.registrarUsuario()
+                    mainViewModel.navigateTo(Screen.Profile)
                 }
             },
             modifier = Modifier.fillMaxWidth()

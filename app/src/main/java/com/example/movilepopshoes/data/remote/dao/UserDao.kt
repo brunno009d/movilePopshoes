@@ -13,4 +13,7 @@ interface UserDao {
 
     @Query("SELECT * FROM usuario WHERE correo = :correo LIMIT 1")
     suspend fun obtenerUsuarioPorCorreo(correo: String): Usuario?
+
+    @Query("SELECT * FROM usuario WHERE id = :id LIMIT 1")
+    suspend fun obtenerUsuarioPorId(id: Int): Usuario?
 }
