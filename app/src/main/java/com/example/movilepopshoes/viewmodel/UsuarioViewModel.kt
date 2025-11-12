@@ -2,6 +2,7 @@ package com.example.movilepopshoes.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movilepopshoes.data.EstadoDataStore
 import com.example.movilepopshoes.data.remote.model.Usuario
 import com.example.movilepopshoes.data.remote.model.UsuarioErrores
 import com.example.movilepopshoes.data.remote.model.UsuarioUiState
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UsuarioViewModel(
-    private val repository: UserRepository
+    private val repository: UserRepository,
+    private val dataStore: EstadoDataStore
 ): ViewModel() {
 
     //estado interno mutable

@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument // <-- ASEGÚRATE DE IMPORTAR ESTO
+import com.example.movilepopshoes.data.EstadoDataStore
 import com.example.movilepopshoes.data.remote.AppDatabase
 import com.example.movilepopshoes.data.remote.repository.UserRepository
 import com.example.movilepopshoes.navigation.BottomBar
@@ -49,7 +50,8 @@ class MainActivity : ComponentActivity() {
             val db = AppDatabase.getDatabase(applicationContext)
             val userDao = db.userDao()
             val repository = UserRepository(userDao)
-            val usuarioViewModel: UsuarioViewModel = viewModel(factory = ViewModelFactory(repository))
+            val dataStore = EstadoDataStore(applicationContext)
+            val usuarioViewModel: UsuarioViewModel = viewModel(factory = ViewModelFactory(repository, dataStore))
 
 
             LaunchedEffect(key1 = Unit) {
@@ -96,7 +98,7 @@ class MainActivity : ComponentActivity() {
                         HomeScreen(navController = navController, viewModel = mainViewModel)
                     }
                     composable(route = Screen.Profile.route) {
-                        ProfileScreen(viewModel = usuarioViewModel)
+                        ProfileScreen()
                     }
                     composable(route = Screen.Settings.route) {
                         SettingsScreen(navController = navController, viewModel = mainViewModel)

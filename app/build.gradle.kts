@@ -42,7 +42,7 @@ android {
 
 dependencies {
     // data store
-    implementation("androidx.datastore:datastore:1.1.7")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     // Jetpack Compose
     implementation("androidx.activity:activity-compose:1.9.3")
