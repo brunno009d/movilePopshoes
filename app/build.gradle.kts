@@ -7,11 +7,15 @@ plugins {
 
 android {
     namespace = "com.example.movilepopshoes"
+    // --- CORRECCIÓN FINAL: SDK ---
+    // Subimos a 36, como piden las dependencias
     compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.movilepopshoes"
-        minSdk = 36
+        // Mantenemos minSdk en 26 (¡Esto es lo correcto!)
+        minSdk = 26
+        // Subimos targetSdk a 36 para que coincida
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -51,7 +55,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling:1.7.2")
 
     // ViewModel y LiveData
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0-re02")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
 
     // Room (Base de datos)
