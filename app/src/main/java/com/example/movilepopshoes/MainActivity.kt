@@ -13,6 +13,9 @@ import com.example.movilepopshoes.navigation.BottomNavItem
 import com.example.movilepopshoes.navigation.NavigationEvent
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import androidx.compose.material3.ExperimentalMaterial3Api
+import com.example.movilepopshoes.data.EstadoDataStore
+import com.example.movilepopshoes.data.remote.AppDatabase
+import com.example.movilepopshoes.data.remote.repository.UserRepository
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 import com.example.movilepopshoes.viewmodel.ViewModelFactory
@@ -25,7 +28,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val mainViewModel: MainViewModel = viewModel()
-            val usuarioViewModel: UsuarioViewModel = viewModel()
             val catalogoViewModel: CatalogoViewModel = viewModel()
             val navController = rememberNavController()
             

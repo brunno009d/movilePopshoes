@@ -17,7 +17,7 @@ import com.example.movilepopshoes.ui.screen.ProfileScreen
 import com.example.movilepopshoes.ui.screen.RegistroScreen
 import com.example.movilepopshoes.ui.screen.ResumenScreen
 import com.example.movilepopshoes.ui.screen.SettingsScreen
-import com.example.movilepopshoes.viewmodel.CatalogoViewModel // <-- IMPORTAR
+import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
