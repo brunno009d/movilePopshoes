@@ -10,7 +10,7 @@ data class Calzado (
     val nombre: String,
     val talla: Int,
     val precio: Int,
-    val descripcion: String, // <-- AÑADIDO
-    @DrawableRes val imagenResId: Int // <-- AÑADIDO (para res/drawable)
+    val descripcion: String,
+    @DrawableRes val imagenResId: Int
 ){
 }
