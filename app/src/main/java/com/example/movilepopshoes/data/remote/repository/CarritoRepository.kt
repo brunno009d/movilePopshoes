@@ -35,4 +35,8 @@ class CarritoRepository(private val carritoDao: CarritoDao) {
             carritoDao.delete(item)
         }
     }
+
+    suspend fun vaciarCarrito() {
+        carritoDao.clearCart()
+    }
 }

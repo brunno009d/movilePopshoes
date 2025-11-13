@@ -8,8 +8,10 @@ import com.example.movilepopshoes.data.remote.model.Calzado
 import com.example.movilepopshoes.data.remote.model.CarritoItem
 import com.example.movilepopshoes.data.remote.model.CarritoItemConCalzado
 import com.example.movilepopshoes.data.remote.repository.CarritoRepository
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -19,6 +21,8 @@ class CarritoViewModel(application: Application) : AndroidViewModel(application)
     private val repository: CarritoRepository
     val itemsEnCarrito: StateFlow<List<CarritoItemConCalzado>>
     val totalCarrito: StateFlow<Int>
+    private val _eventoCompletado = MutableSharedFlow<Unit>()
+    val eventoCompletado = _eventoCompletado.asSharedFlow()
 
     init {
         val carritoDao = AppDatabase.getDatabase(application).carritoDao()
@@ -61,6 +65,13 @@ class CarritoViewModel(application: Application) : AndroidViewModel(application)
     fun disminuirCantidad(item: CarritoItem) {
         viewModelScope.launch {
             repository.actualizarCantidad(item, item.cantidad - 1)
+        }
+    }
+
+    fun finalizarCompra() {
+        viewModelScope.launch {
+            repository.vaciarCarrito()
+            _eventoCompletado.emit(Unit)
         }
     }
 }

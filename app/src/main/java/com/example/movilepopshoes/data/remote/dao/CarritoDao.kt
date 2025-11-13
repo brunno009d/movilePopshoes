@@ -18,7 +18,6 @@ interface CarritoDao {
     @Query("SELECT * FROM carrito_items")
     fun getItemsConCalzado(): Flow<List<CarritoItemConCalzado>>
 
-    // Busca un item por el ID del calzado (para ver si ya existe)
     @Query("SELECT * FROM carrito_items WHERE calzadoId = :calzadoId")
     suspend fun getItemPorCalzadoId(calzadoId: Int): CarritoItem?
 
@@ -30,4 +29,8 @@ interface CarritoDao {
 
     @Delete
     suspend fun delete(item: CarritoItem)
+
+    @Query("DELETE FROM carrito_items")
+    suspend fun clearCart()
+
 }
