@@ -5,16 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.movilepopshoes.data.remote.dao.CalzadoDao
+import com.example.movilepopshoes.data.remote.dao.CarritoDao
 import com.example.movilepopshoes.data.remote.dao.UserDao
 import com.example.movilepopshoes.data.remote.model.Calzado
+import com.example.movilepopshoes.data.remote.model.CarritoItem
 import com.example.movilepopshoes.data.remote.model.Usuario
 
-// --- CAMBIO 1 ---
-// La versión se incrementa a 2 porque cambiamos la tabla "calzado"
-@Database(entities = [Usuario::class, Calzado::class], version = 2)
+
+@Database(entities = [Usuario::class, Calzado::class, CarritoItem::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun calzadoDao(): CalzadoDao
+    abstract fun carritoDao(): CarritoDao
 
     companion object{
         @Volatile private var INSTANCE: AppDatabase? = null
@@ -26,9 +28,6 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "popshoes_db"
                 )
-                    // --- CAMBIO 2 ---
-                    // Le dice a Room que destruya y recree la BD si la versión cambia.
-                    // Esto es perfecto para desarrollo.
                     .fallbackToDestructiveMigration()
                     .build().also { INSTANCE = it }
             }

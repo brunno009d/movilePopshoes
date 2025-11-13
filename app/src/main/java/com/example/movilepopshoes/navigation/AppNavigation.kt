@@ -17,6 +17,7 @@ import com.example.movilepopshoes.ui.screen.ProfileScreen
 import com.example.movilepopshoes.ui.screen.RegistroScreen
 import com.example.movilepopshoes.ui.screen.ResumenScreen
 import com.example.movilepopshoes.ui.screen.SettingsScreen
+import com.example.movilepopshoes.viewmodel.CarritoViewModel
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
@@ -27,6 +28,7 @@ fun AppNavigationGraph(
     mainViewModel: MainViewModel,
     usuarioViewModel: UsuarioViewModel,
     catalogoViewModel: CatalogoViewModel,
+    carritoViewModel: CarritoViewModel,
     innerPadding: PaddingValues
 ) {
     NavHost(
@@ -34,7 +36,6 @@ fun AppNavigationGraph(
         startDestination = Screen.Home.route,
         modifier = Modifier.padding(innerPadding)
     ) {
-        // Ruta Home
         composable(route = Screen.Home.route) {
             HomeScreen(
                 navController = navController,
@@ -42,8 +43,6 @@ fun AppNavigationGraph(
                 catalogoViewModel = catalogoViewModel
             )
         }
-
-
         composable(route = Screen.Profile.route) {
             ProfileScreen(viewModel = usuarioViewModel)
         }
@@ -59,11 +58,14 @@ fun AppNavigationGraph(
         composable(route = Screen.Inicio.route) {
             InicioSesionScreen(navController = navController, viewModel = usuarioViewModel)
         }
+
         composable(route = Screen.Carrito.route) {
-            CarritoScreen(navController = navController)
+            CarritoScreen(
+                navController = navController,
+                viewModel = carritoViewModel
+            )
         }
 
-        //  Ruta  Detalle
         composable(
             route = Screen.Detail.route,
             arguments = listOf(navArgument("itemId") { type = NavType.IntType })
@@ -72,12 +74,12 @@ fun AppNavigationGraph(
             val itemId = backStackEntry.arguments?.getInt("itemId")
             requireNotNull(itemId) { "El itemId no puede ser nulo" }
 
-
             catalogoViewModel.selectCalzado(itemId)
 
             ProductDetailScreen(
                 mainViewModel = mainViewModel,
-                catalogoViewModel = catalogoViewModel
+                catalogoViewModel = catalogoViewModel,
+                carritoViewModel = carritoViewModel
             )
         }
     }

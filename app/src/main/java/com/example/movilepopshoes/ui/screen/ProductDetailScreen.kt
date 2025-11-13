@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.movilepopshoes.viewmodel.CarritoViewModel
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
 
@@ -23,7 +24,8 @@ import com.example.movilepopshoes.viewmodel.MainViewModel
 @Composable
 fun ProductDetailScreen(
     mainViewModel: MainViewModel,
-    catalogoViewModel: CatalogoViewModel
+    catalogoViewModel: CatalogoViewModel,
+    carritoViewModel: CarritoViewModel
 ) {
     val calzado by catalogoViewModel.calzadoSeleccionado.collectAsState()
 
@@ -63,7 +65,6 @@ fun ProductDetailScreen(
                         .padding(16.dp),
                     horizontalAlignment = Alignment.Start
                 ) {
-                    // 1. Imagen
                     Image(
                         painter = painterResource(id = calzado!!.imagenResId),
                         contentDescription = calzado!!.nombre,
@@ -73,47 +74,35 @@ fun ProductDetailScreen(
                             .align(Alignment.CenterHorizontally),
                         contentScale = ContentScale.Crop
                     )
-
                     Spacer(modifier = Modifier.height(24.dp))
-
-                    //  Nombre
                     Text(
                         text = calzado!!.nombre,
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.Bold
                     )
-
                     Spacer(modifier = Modifier.height(8.dp))
-
-                    //  Precio
                     Text(
                         text = "$${calzado!!.precio}",
                         style = MaterialTheme.typography.headlineLarge,
                         color = MaterialTheme.colorScheme.primary
                     )
-
                     Spacer(modifier = Modifier.height(16.dp))
-
-                    //  Talla
                     Text(
                         text = "Talla: ${calzado!!.talla}",
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Medium
                     )
-
                     Spacer(modifier = Modifier.height(16.dp))
-
-                    //  Descripcion
                     Text(
                         text = calzado!!.descripcion,
                         style = MaterialTheme.typography.bodyLarge
                     )
-
                     Spacer(modifier = Modifier.weight(1f))
 
-                    //  Agregar al carrito
                     Button(
-                        onClick = { /* TODO: Lógica para agregar al carrito */ },
+                        onClick = {
+                            carritoViewModel.agregarAlCarrito(calzado!!)
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 16.dp)
