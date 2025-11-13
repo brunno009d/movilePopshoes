@@ -21,12 +21,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.movilepopshoes.data.remote.model.Calzado
 
-/**
- * Componente reutilizable que muestra la tarjeta de un producto (Calzado).
- */
 @Composable
 fun ProductCard(
-    calzado: Calzado, // <-- Recibe tu objeto Calzado
+    calzado: Calzado,
     onProductClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {

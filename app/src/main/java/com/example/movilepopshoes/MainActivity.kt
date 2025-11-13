@@ -17,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import com.example.movilepopshoes.data.EstadoDataStore
 import com.example.movilepopshoes.data.remote.AppDatabase
 import com.example.movilepopshoes.data.remote.repository.UserRepository
+import com.example.movilepopshoes.viewmodel.CarritoViewModel
 import com.example.movilepopshoes.viewmodel.LoginViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.PerfilViewModel
@@ -45,6 +46,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val mainViewModel: MainViewModel = viewModel()
             val catalogoViewModel: CatalogoViewModel = viewModel()
+            val carritoViewModel: CarritoViewModel = viewModel()
             val navController = rememberNavController()
 
             LaunchedEffect(key1 = Unit) {
