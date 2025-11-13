@@ -91,6 +91,7 @@ class MainActivity : ComponentActivity() {
                     catalogoViewModel = catalogoViewModel,
                     loginViewModel = loginViewModel,
                     perfilViewModel = perfilViewModel,
+                    carritoViewModel = carritoViewModel,
                     innerPadding = innerPadding
                 )
             }
