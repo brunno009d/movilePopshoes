@@ -17,39 +17,58 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.movilepopshoes.navigation.Screen
 import com.example.movilepopshoes.viewmodel.LoginViewModel
+import com.example.movilepopshoes.viewmodel.MainViewModel
+import com.example.movilepopshoes.viewmodel.PerfilViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
 
 // recibir el UsuarioViewModel
 @Composable
 fun ProfileScreen(
-    viewModel: LoginViewModel,
-    navController: NavController
+    mainViewModel: MainViewModel,
+    viewModel: PerfilViewModel
 ) {
+    val logueado by viewModel.logueado.collectAsState()
+    val usuario by viewModel.usuario.collectAsState()
+
     Column(
         Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text("Mi Perfil", style = MaterialTheme.typography.headlineMedium)
+        Text("Perfil", style = MaterialTheme.typography.headlineMedium)
 
-        // Botón de logout
-        Button(
-            onClick = { viewModel.logOut() },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Cerrar sesión")
-        }
+        if (!logueado) {
+            // Usuario no logueado -> mostrar botones
+            Button(
+                onClick = { mainViewModel.navigateTo(Screen.Inicio) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Iniciar sesión")
+            }
 
-        // Navegar automáticamente al login cuando el usuario se desloguea
-        val logueado by viewModel.logueado.collectAsState()
-        LaunchedEffect(logueado) {
-            if (!logueado) {
-                navController.navigate("login_page") {
-                    popUpTo("profile_page") { inclusive = true }
-                }
+            Button(
+                onClick = { mainViewModel.navigateTo(Screen.Registro) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Registrarse")
+            }
+        } else {
+            // Usuario logueado -> mostrar datos
+            usuario?.let {
+                Text("Nombre: ${it.nombre}")
+                Text("Correo: ${it.correo}")
+                Text("Dirección: ${it.direccion}")
+            }
+
+            Button(
+                onClick = { viewModel.logout() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Cerrar sesión")
             }
         }
     }

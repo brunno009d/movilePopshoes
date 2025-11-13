@@ -12,4 +12,8 @@ class UserRepository(private  val userDao: UserDao){
     suspend fun obtenerUsuarioPorCorreo(correo: String): Usuario? {
         return userDao.obtenerUsuarioPorCorreo(correo)
     }
+
+    suspend fun obtenerUsuarioPorId(id: Int): Usuario? {
+        return userDao.obtenerUsuarioPorId(id)
+    }
 }

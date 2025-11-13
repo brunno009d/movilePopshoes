@@ -17,12 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.movilepopshoes.navigation.Screen
 import com.example.movilepopshoes.viewmodel.LoginViewModel
+import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
+    mainViewModel: MainViewModel,
     viewModel: LoginViewModel
 ){
     val estado by viewModel.estado.collectAsState()
@@ -34,9 +36,7 @@ fun LoginScreen(
             // Espera opcional
             kotlinx.coroutines.delay(1000)
             // Navegar
-            navController.navigate("resumen_page") {
-                popUpTo("login_page") { inclusive = true }
-            }
+            mainViewModel.navigateTo(Screen.Profile)
         }
     }
 

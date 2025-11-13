@@ -19,6 +19,7 @@ import com.example.movilepopshoes.data.remote.AppDatabase
 import com.example.movilepopshoes.data.remote.repository.UserRepository
 import com.example.movilepopshoes.viewmodel.LoginViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
+import com.example.movilepopshoes.viewmodel.PerfilViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 import com.example.movilepopshoes.viewmodel.ViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
@@ -39,6 +40,7 @@ class MainActivity : ComponentActivity() {
         //ViewModels
         val usuarioViewModel: UsuarioViewModel by viewModels { factory }
         val loginViewModel: LoginViewModel by viewModels { factory }
+        val perfilViewModel: PerfilViewModel by viewModels { factory }
 
         setContent {
             val mainViewModel: MainViewModel = viewModel()
@@ -86,6 +88,7 @@ class MainActivity : ComponentActivity() {
                     usuarioViewModel = usuarioViewModel,
                     catalogoViewModel = catalogoViewModel,
                     loginViewModel = loginViewModel,
+                    perfilViewModel = perfilViewModel,
                     innerPadding = innerPadding
                 )
             }

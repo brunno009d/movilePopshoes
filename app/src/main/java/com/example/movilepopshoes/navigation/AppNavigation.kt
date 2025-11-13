@@ -20,6 +20,7 @@ import com.example.movilepopshoes.ui.screen.SettingsScreen
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.viewmodel.LoginViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
+import com.example.movilepopshoes.viewmodel.PerfilViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
 @Composable
@@ -29,6 +30,7 @@ fun AppNavigationGraph(
     usuarioViewModel: UsuarioViewModel,
     loginViewModel: LoginViewModel,
     catalogoViewModel: CatalogoViewModel,
+    perfilViewModel: PerfilViewModel,
     innerPadding: PaddingValues
 ) {
     NavHost(
@@ -47,7 +49,7 @@ fun AppNavigationGraph(
 
 
         composable(route = Screen.Profile.route) {
-            ProfileScreen(navController = navController, viewModel = loginViewModel)
+            ProfileScreen(mainViewModel = mainViewModel, viewModel = perfilViewModel)
         }
         composable(route = Screen.Settings.route) {
             SettingsScreen(navController = navController, viewModel = mainViewModel)
@@ -59,7 +61,7 @@ fun AppNavigationGraph(
             ResumenScreen(viewModel = usuarioViewModel)
         }
         composable(route = Screen.Inicio.route) {
-            LoginScreen(navController = navController, viewModel = loginViewModel)
+            LoginScreen(mainViewModel = mainViewModel, viewModel = loginViewModel)
         }
         composable(route = Screen.Carrito.route) {
             CarritoScreen(navController = navController)
