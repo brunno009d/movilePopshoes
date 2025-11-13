@@ -11,7 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.movilepopshoes.ui.screen.CarritoScreen
 import com.example.movilepopshoes.ui.screen.HomeScreen
-import com.example.movilepopshoes.ui.screen.InicioSesionScreen
+import com.example.movilepopshoes.ui.screen.LoginScreen
 import com.example.movilepopshoes.ui.screen.ProductDetailScreen
 import com.example.movilepopshoes.ui.screen.ProfileScreen
 import com.example.movilepopshoes.ui.screen.RegistroScreen
@@ -19,7 +19,9 @@ import com.example.movilepopshoes.ui.screen.ResumenScreen
 import com.example.movilepopshoes.ui.screen.SettingsScreen
 import com.example.movilepopshoes.viewmodel.CarritoViewModel
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
+import com.example.movilepopshoes.viewmodel.LoginViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
+import com.example.movilepopshoes.viewmodel.PerfilViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
 @Composable
@@ -27,8 +29,10 @@ fun AppNavigationGraph(
     navController: NavHostController,
     mainViewModel: MainViewModel,
     usuarioViewModel: UsuarioViewModel,
+    loginViewModel: LoginViewModel,
     catalogoViewModel: CatalogoViewModel,
     carritoViewModel: CarritoViewModel,
+    perfilViewModel: PerfilViewModel,
     innerPadding: PaddingValues
 ) {
     NavHost(
@@ -44,7 +48,7 @@ fun AppNavigationGraph(
             )
         }
         composable(route = Screen.Profile.route) {
-            ProfileScreen(viewModel = usuarioViewModel)
+            ProfileScreen(mainViewModel = mainViewModel, viewModel = perfilViewModel)
         }
         composable(route = Screen.Settings.route) {
             SettingsScreen(navController = navController, viewModel = mainViewModel)
@@ -56,7 +60,7 @@ fun AppNavigationGraph(
             ResumenScreen(viewModel = usuarioViewModel)
         }
         composable(route = Screen.Inicio.route) {
-            InicioSesionScreen(navController = navController, viewModel = usuarioViewModel)
+            LoginScreen(mainViewModel = mainViewModel, viewModel = loginViewModel)
         }
 
         composable(route = Screen.Carrito.route) {

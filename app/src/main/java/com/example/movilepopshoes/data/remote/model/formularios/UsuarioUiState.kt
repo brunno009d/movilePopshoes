@@ -1,4 +1,4 @@
-package com.example.movilepopshoes.data.remote.model
+package com.example.movilepopshoes.data.remote.model.formularios
 
 data class UsuarioUiState (
     val nombre: String = "",
@@ -7,8 +7,7 @@ data class UsuarioUiState (
     val direccion: String = "",
     val aceptaTerminos: Boolean = false,
     val errores: UsuarioErrores = UsuarioErrores(),
-    val logueado: Boolean = false
-)
+    )
 {
 
 }

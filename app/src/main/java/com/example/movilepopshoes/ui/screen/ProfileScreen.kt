@@ -1,45 +1,75 @@
 package com.example.movilepopshoes.ui.screen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.movilepopshoes.navigation.Screen
+import com.example.movilepopshoes.viewmodel.LoginViewModel
+import com.example.movilepopshoes.viewmodel.MainViewModel
+import com.example.movilepopshoes.viewmodel.PerfilViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
 
 // recibir el UsuarioViewModel
 @Composable
 fun ProfileScreen(
-    viewModel: UsuarioViewModel
+    mainViewModel: MainViewModel,
+    viewModel: PerfilViewModel
 ) {
-    // Nos conectamos al 'estado' del UsuarioViewModel
-    val estado by viewModel.estado.collectAsState()
+    val logueado by viewModel.logueado.collectAsState()
+    val usuario by viewModel.usuario.collectAsState()
 
     Column(
         Modifier
             .fillMaxSize()
-            .padding(16.dp)
-    ){
-        Text("Mi Perfil", style = MaterialTheme.typography.headlineMedium)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text("Perfil", style = MaterialTheme.typography.headlineMedium)
 
-        if (estado.nombre.isBlank()) {
-            // Si no hay datos (ej. no se ha registrado o iniciado sesión)
-            Text("No hay información de usuario disponible.")
+        if (!logueado) {
+            // Usuario no logueado -> mostrar botones
+            Button(
+                onClick = { mainViewModel.navigateTo(Screen.Inicio) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Iniciar sesión")
+            }
+
+            Button(
+                onClick = { mainViewModel.navigateTo(Screen.Registro) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Registrarse")
+            }
         } else {
-            // Si hay datos en el estado
-            Text("Nombre: ${estado.nombre}")
-            Text("Correo: ${estado.correo}")
-            Text("Direccion: ${estado.direccion}")
-            Text("Terminos: ${if (estado.aceptaTerminos) "Aceptados" else "No aceptados"}")
-        }
+            // Usuario logueado -> mostrar datos
+            usuario?.let {
+                Text("Nombre: ${it.nombre}")
+                Text("Correo: ${it.correo}")
+                Text("Dirección: ${it.direccion}")
+            }
 
+            Button(
+                onClick = { viewModel.logout() },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Cerrar sesión")
+            }
+        }
     }
 }

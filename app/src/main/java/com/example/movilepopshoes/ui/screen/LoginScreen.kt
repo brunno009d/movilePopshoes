@@ -10,19 +10,35 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.movilepopshoes.navigation.Screen
+import com.example.movilepopshoes.viewmodel.LoginViewModel
+import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
 @Composable
-fun InicioSesionScreen(
-    navController: NavController,
-    viewModel: UsuarioViewModel
+fun LoginScreen(
+    mainViewModel: MainViewModel,
+    viewModel: LoginViewModel
 ){
     val estado by viewModel.estado.collectAsState()
+    val logueado by viewModel.logueado.collectAsState()
+
+    LaunchedEffect(logueado) {
+        if (logueado) {
+            println("Login exitoso!")
+            // Espera opcional
+            kotlinx.coroutines.delay(1000)
+            // Navegar
+            mainViewModel.navigateTo(Screen.Profile)
+        }
+    }
 
     Column(
         Modifier
@@ -60,8 +76,8 @@ fun InicioSesionScreen(
 
         Button(
             onClick = {
-                if (viewModel.validarFormulario()) {
-                    navController.navigate("resumen_page")
+                if (viewModel.validarFormularioLogin()) {
+                    viewModel.loguin()
                 }
             },
             modifier = Modifier.fillMaxWidth()

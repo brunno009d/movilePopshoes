@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movilepopshoes.data.EstadoDataStore
 import com.example.movilepopshoes.data.remote.model.Usuario
-import com.example.movilepopshoes.data.remote.model.UsuarioErrores
-import com.example.movilepopshoes.data.remote.model.UsuarioUiState
+import com.example.movilepopshoes.data.remote.model.formularios.UsuarioErrores
+import com.example.movilepopshoes.data.remote.model.formularios.UsuarioUiState
 import com.example.movilepopshoes.data.remote.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
