@@ -10,11 +10,16 @@ class ViewModelFactory(
     private val repository: UserRepository,
     private val dataStore: EstadoDataStore
 ) : ViewModelProvider.Factory {
+
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(UsuarioViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return UsuarioViewModel(repository, dataStore) as T
+        return when {
+            modelClass.isAssignableFrom(UsuarioViewModel::class.java) -> {
+                UsuarioViewModel(repository, dataStore) as T
+            }
+            modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
+                LoginViewModel(repository, dataStore) as T
+            }
+            else -> throw IllegalArgumentException("Unknown ViewModel Class")
         }
-        throw IllegalArgumentException("Unknown ViewModel Class")
     }
 }

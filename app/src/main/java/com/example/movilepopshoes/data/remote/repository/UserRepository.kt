@@ -9,8 +9,7 @@ class UserRepository(private  val userDao: UserDao){
         userDao.añadirUsuario(usuario)
     }
 
-    suspend fun login(correo: String, clave: String): Boolean {
-        val usuario = userDao.obtenerUsuarioPorCorreo(correo)
-        return usuario?.clave == clave
+    suspend fun obtenerUsuarioPorCorreo(correo: String): Usuario? {
+        return userDao.obtenerUsuarioPorCorreo(correo)
     }
 }

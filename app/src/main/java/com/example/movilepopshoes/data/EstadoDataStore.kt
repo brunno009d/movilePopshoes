@@ -17,7 +17,7 @@ class EstadoDataStore (private val context: Context){
     }
 
 
-    suspend fun saveSession(usuario_id: Int, usuario_log: Boolean) {
+    suspend fun guardarSession(usuario_id: Int, usuario_log: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[USUARIO_ID] = usuario_id
             preferences[USUARIO_LOG] = usuario_log

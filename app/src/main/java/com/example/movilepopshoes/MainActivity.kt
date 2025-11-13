@@ -3,6 +3,7 @@ package com.example.movilepopshoes
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -16,6 +17,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import com.example.movilepopshoes.data.EstadoDataStore
 import com.example.movilepopshoes.data.remote.AppDatabase
 import com.example.movilepopshoes.data.remote.repository.UserRepository
+import com.example.movilepopshoes.viewmodel.LoginViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 import com.example.movilepopshoes.viewmodel.ViewModelFactory
@@ -26,18 +28,22 @@ import kotlinx.coroutines.flow.collectLatest
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //Para la base de datos
+        val db = AppDatabase.getDatabase(applicationContext)
+        val userDao = db.userDao()
+        val repository = UserRepository(userDao)
+        val dataStore = EstadoDataStore(applicationContext)
+        val factory = ViewModelFactory(repository, dataStore)
+
+        //ViewModels
+        val usuarioViewModel: UsuarioViewModel by viewModels { factory }
+        val loginViewModel: LoginViewModel by viewModels { factory }
+
         setContent {
             val mainViewModel: MainViewModel = viewModel()
             val catalogoViewModel: CatalogoViewModel = viewModel()
             val navController = rememberNavController()
-            
-            //Para la base de datos
-            val db = AppDatabase.getDatabase(applicationContext)
-            val userDao = db.userDao()
-            val repository = UserRepository(userDao)
-            val dataStore = EstadoDataStore(applicationContext)
-            val usuarioViewModel: UsuarioViewModel = viewModel(factory = ViewModelFactory(repository, dataStore))
-
 
             LaunchedEffect(key1 = Unit) {
                 mainViewModel.navigationEvents.collectLatest { event ->
@@ -79,6 +85,7 @@ class MainActivity : ComponentActivity() {
                     mainViewModel = mainViewModel,
                     usuarioViewModel = usuarioViewModel,
                     catalogoViewModel = catalogoViewModel,
+                    loginViewModel = loginViewModel,
                     innerPadding = innerPadding
                 )
             }

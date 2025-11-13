@@ -1,18 +1,82 @@
 package com.example.movilepopshoes.viewmodel
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.movilepopshoes.data.EstadoDataStore
-import com.example.movilepopshoes.data.remote.model.UsuarioUiState
+import com.example.movilepopshoes.data.remote.model.formularios.LoginErrores
+import com.example.movilepopshoes.data.remote.model.formularios.LoginUiState
+import com.example.movilepopshoes.data.remote.model.formularios.UsuarioUiState
 import com.example.movilepopshoes.data.remote.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class LoginViewModel (
+class LoginViewModel(
     private val repository: UserRepository,
     private val dataStore: EstadoDataStore
-){
+) : ViewModel() {
 
-    private val _estado = MutableStateFlow(UsuarioUiState())
-    val estado: StateFlow<UsuarioUiState> = _estado
+    private val _estado = MutableStateFlow(LoginUiState())
+    val estado: StateFlow<LoginUiState> = _estado
 
+    val logueado: StateFlow<Boolean> = dataStore.usuario_log
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
+    fun onCorreoChange(valor: String) {
+        _estado.update { it.copy(correo = valor, errores = it.errores.copy(correo = null)) }
+    }
+
+    fun onClaveChange(valor: String) {
+        _estado.update { it.copy(clave = valor, errores = it.errores.copy(clave = null)) }
+    }
+
+    fun validarFormularioLogin(): Boolean {
+        val estadoActual = _estado.value
+        val errores = LoginErrores(
+            correo = if (estadoActual.correo.isEmpty()) "El correo no puede estar vacio" else null,
+            clave = if (estadoActual.clave.isEmpty()) "La contraseña no puede estar vacia" else null
+        )
+
+        val hayErrores = listOfNotNull(
+            errores.correo,
+            errores.clave
+        ).isNotEmpty()
+
+        _estado.update { it.copy(errores = errores) }
+        return !hayErrores
+    }
+
+    fun loguin(){
+        // verificar
+        if (!validarFormularioLogin()) return
+
+        viewModelScope.launch {
+            val correo = _estado.value.correo
+            val clave = _estado.value.clave
+
+            val usuario = repository.obtenerUsuarioPorCorreo(correo)
+
+            if (usuario != null && usuario.clave == clave) {
+                dataStore.guardarSession(usuario.id, true)
+                _estado.update { it.copy(logueado = true) }
+            }
+
+            else {
+                _estado.update {
+                    it.copy(errores = it.errores.copy(correo = "Correo o Contraseña Incorrectos"))
+                }
+            }
+
+        }
+    }
+
+    fun logOut(){
+        viewModelScope.launch {
+            dataStore.cerrarSession()
+        }
+    }
 }
