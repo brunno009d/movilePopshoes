@@ -23,8 +23,6 @@ import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.PerfilViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
 
-
-// recibir el UsuarioViewModel
 @Composable
 fun ProfileScreen(
     mainViewModel: MainViewModel,
@@ -42,7 +40,6 @@ fun ProfileScreen(
         Text("Perfil", style = MaterialTheme.typography.headlineMedium)
 
         if (!logueado) {
-            // Usuario no logueado -> mostrar botones
             Button(
                 onClick = { mainViewModel.navigateTo(Screen.Inicio) },
                 modifier = Modifier.fillMaxWidth()
@@ -57,7 +54,6 @@ fun ProfileScreen(
                 Text("Registrarse")
             }
         } else {
-            // Usuario logueado -> mostrar datos
             usuario?.let {
                 Text("Nombre: ${it.nombre}")
                 Text("Correo: ${it.correo}")

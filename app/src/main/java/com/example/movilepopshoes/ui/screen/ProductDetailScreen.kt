@@ -19,6 +19,11 @@ import androidx.compose.ui.unit.dp
 import com.example.movilepopshoes.viewmodel.CarritoViewModel
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,6 +33,21 @@ fun ProductDetailScreen(
     carritoViewModel: CarritoViewModel
 ) {
     val calzado by catalogoViewModel.calzadoSeleccionado.collectAsState()
+    val itemsDelCarrito by carritoViewModel.itemsEnCarrito.collectAsState()
+
+    val estaEnCarrito by remember(itemsDelCarrito, calzado) {
+        derivedStateOf {
+            itemsDelCarrito.any { it.calzado.id == calzado?.id }
+        }
+    }
+
+    val colorBoton by animateColorAsState(
+        targetValue = if (estaEnCarrito) Color.Gray else MaterialTheme.colorScheme.primary,
+        animationSpec = tween(durationMillis = 500),
+        label = "ColorBotonCarrito"
+    )
+
+    val textoBoton = if (estaEnCarrito) "En el Carrito" else "Agregar al Carrito"
 
     Scaffold(
         topBar = {
@@ -101,13 +121,17 @@ fun ProductDetailScreen(
 
                     Button(
                         onClick = {
-                            carritoViewModel.agregarAlCarrito(calzado!!)
+                            if (!estaEnCarrito && calzado != null) {
+                                carritoViewModel.agregarAlCarrito(calzado!!)
+                            }
                         },
+                        colors = ButtonDefaults.buttonColors(containerColor = colorBoton),
+                        enabled = !estaEnCarrito,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 16.dp)
                     ) {
-                        Text("Agregar al Carrito", fontSize = MaterialTheme.typography.bodyLarge.fontSize)
+                        Text(textoBoton, fontSize = MaterialTheme.typography.bodyLarge.fontSize)
                     }
                 }
             }

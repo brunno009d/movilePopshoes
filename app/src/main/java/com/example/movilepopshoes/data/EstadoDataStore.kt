@@ -16,7 +16,6 @@ class EstadoDataStore (private val context: Context){
         private val USUARIO_LOG = booleanPreferencesKey("usuario_log")
     }
 
-
     suspend fun guardarSession(usuario_id: Int, usuario_log: Boolean) {
         context.dataStore.edit { preferences ->
             preferences[USUARIO_ID] = usuario_id
@@ -24,17 +23,13 @@ class EstadoDataStore (private val context: Context){
         }
     }
 
-    // Obtener el id del usuario
     val usuario_id: Flow<Int?> = context.dataStore.data
         .map { preferences -> preferences[USUARIO_ID] }
 
-    // Obtener el Estado del login
     val usuario_log: Flow<Boolean> = context.dataStore.data
         .map { preferences -> preferences[USUARIO_LOG] ?: false }
 
     suspend fun cerrarSession() {
         context.dataStore.edit { preferences -> preferences.clear() }
     }
-
-
 }
