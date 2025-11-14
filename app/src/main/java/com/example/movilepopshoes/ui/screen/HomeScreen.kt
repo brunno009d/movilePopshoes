@@ -41,6 +41,9 @@ import com.example.movilepopshoes.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.ui.components.ProductCard
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.CircularProgressIndicator
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,19 +114,28 @@ fun HomeScreen(
                     modifier = Modifier.padding(16.dp)
                 )
 
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    items(calzados) { calzado ->
-                        ProductCard(
-                            calzado = calzado,
-                            onProductClick = {
-                                mainViewModel.navigateTo(Screen.Detail.createRoute(calzado.id))
-                            }
-                        )
+                if (calzados == null) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        items(calzados!!) { calzado ->
+                            ProductCard(
+                                calzado = calzado,
+                                onProductClick = {
+                                    mainViewModel.navigateTo(Screen.Detail.createRoute(calzado.id))
+                                }
+                            )
+                        }
                     }
                 }
             }

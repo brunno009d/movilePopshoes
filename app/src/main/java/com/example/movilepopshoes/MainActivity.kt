@@ -31,14 +31,12 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Para la base de datos
         val db = AppDatabase.getDatabase(applicationContext)
         val userDao = db.userDao()
         val repository = UserRepository(userDao)
         val dataStore = EstadoDataStore(applicationContext)
         val factory = ViewModelFactory(repository, dataStore)
 
-        //ViewModels
         val usuarioViewModel: UsuarioViewModel by viewModels { factory }
         val loginViewModel: LoginViewModel by viewModels { factory }
         val perfilViewModel: PerfilViewModel by viewModels { factory }
