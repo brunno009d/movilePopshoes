@@ -76,7 +76,7 @@ fun LoginScreen(
         Column(
             Modifier
                 .fillMaxSize()
-                .padding(innerPadding) // <-- Usar padding del Scaffold
+                .padding(innerPadding)
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(12.dp)

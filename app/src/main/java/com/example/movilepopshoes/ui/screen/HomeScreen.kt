@@ -48,7 +48,6 @@ import androidx.compose.material3.CircularProgressIndicator
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navController: NavController,
     mainViewModel: MainViewModel,
     catalogoViewModel: CatalogoViewModel
 ) {

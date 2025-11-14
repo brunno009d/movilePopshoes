@@ -20,7 +20,7 @@ class CalzadoRepository(private val calzadoDao: CalzadoDao) {
     }
 }
 
-// --- DATOS DE PRUEBA ---
+// DATOS DE PRUEBA
 private fun getZapatosDePrueba(): List<Calzado> {
     return listOf(
         Calzado(

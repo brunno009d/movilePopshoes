@@ -15,8 +15,6 @@ import com.example.movilepopshoes.ui.screen.LoginScreen
 import com.example.movilepopshoes.ui.screen.ProductDetailScreen
 import com.example.movilepopshoes.ui.screen.ProfileScreen
 import com.example.movilepopshoes.ui.screen.RegistroScreen
-import com.example.movilepopshoes.ui.screen.ResumenScreen
-import com.example.movilepopshoes.ui.screen.SettingsScreen
 import com.example.movilepopshoes.viewmodel.CarritoViewModel
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.viewmodel.LoginViewModel
@@ -42,7 +40,6 @@ fun AppNavigationGraph(
     ) {
         composable(route = Screen.Home.route) {
             HomeScreen(
-                navController = navController,
                 mainViewModel = mainViewModel,
                 catalogoViewModel = catalogoViewModel
             )
@@ -50,14 +47,8 @@ fun AppNavigationGraph(
         composable(route = Screen.Profile.route) {
             ProfileScreen(mainViewModel = mainViewModel, viewModel = perfilViewModel)
         }
-        composable(route = Screen.Settings.route) {
-            SettingsScreen(navController = navController, viewModel = mainViewModel)
-        }
         composable(route = Screen.Registro.route) {
             RegistroScreen(mainViewModel = mainViewModel, viewModel = usuarioViewModel)
-        }
-        composable(route = Screen.Resumen.route) {
-            ResumenScreen(viewModel = usuarioViewModel)
         }
         composable(route = Screen.Inicio.route) {
             LoginScreen(mainViewModel = mainViewModel, viewModel = loginViewModel)
@@ -65,7 +56,6 @@ fun AppNavigationGraph(
 
         composable(route = Screen.Carrito.route) {
             CarritoScreen(
-                navController = navController,
                 viewModel = carritoViewModel
             )
         }

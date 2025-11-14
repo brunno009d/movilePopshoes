@@ -31,7 +31,6 @@ import com.example.movilepopshoes.ui.components.CarritoItemCard
 
 @Composable
 fun CarritoScreen(
-    navController: NavController,
     viewModel: CarritoViewModel
 ) {
     val items by viewModel.itemsEnCarrito.collectAsState()
@@ -96,7 +95,7 @@ fun CarritoScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { viewModel.finalizarCompra() }, // Llama al VM
+                onClick = { viewModel.finalizarCompra() },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Finalizar Compra", style = MaterialTheme.typography.titleMedium)

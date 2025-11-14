@@ -36,7 +36,7 @@ fun ProductCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = calzado.imagenResId), // <-- Imagen de Calzado
+                painter = painterResource(id = calzado.imagenResId), // Imagen de Calzado
                 contentDescription = calzado.nombre,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -46,14 +46,14 @@ fun ProductCard(
             Box(modifier = Modifier.padding(12.dp)) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                     Text(
-                        text = calzado.nombre, // <-- Nombre de Calzado
+                        text = calzado.nombre,
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center
                     )
                     Text(
                         // Formateamos el Int como String de precio
-                        text = "$${calzado.precio}", // <-- Precio de Calzado
+                        text = "$${calzado.precio}",
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center
                     )

@@ -19,7 +19,6 @@ class PerfilViewModel (
     val logueado: StateFlow<Boolean> = dataStore.usuario_log
         .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
-    //Estado dinamico del usuario
     private val _usuario = MutableStateFlow<PerfilUiState?>(null)
     val usuario: StateFlow<PerfilUiState?> = _usuario
 

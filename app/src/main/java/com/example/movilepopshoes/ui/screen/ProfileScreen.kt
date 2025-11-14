@@ -72,7 +72,7 @@ fun ProfileScreen(
     ) { bmp ->
         if (bmp != null) {
             bitmap = bmp
-            imageUri = null // Limpiar la URI de la galería
+            imageUri = null
         }
     }
 
@@ -82,7 +82,7 @@ fun ProfileScreen(
         if (isGranted) {
             takePictureLauncher.launch(null)
         } else {
-            Toast.makeText(context, "Permiso de cámara denegado 😞", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -91,7 +91,7 @@ fun ProfileScreen(
     ) { uri ->
         if (uri != null) {
             imageUri = uri
-            bitmap = null // Limpiar el bitmap de la cámara
+            bitmap = null
         }
     }
 
@@ -107,7 +107,7 @@ fun ProfileScreen(
                 .padding(innerPadding)
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally, // Centrar todo
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
