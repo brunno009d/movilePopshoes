@@ -55,6 +55,8 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.7.0-beta01")
     implementation("androidx.compose.ui:ui-tooling:1.7.2")
 
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
     // ViewModel y LiveData
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
