@@ -55,16 +55,26 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:1.7.0-beta01")
     implementation("androidx.compose.ui:ui-tooling:1.7.2")
 
+    // Coil
     implementation("io.coil-kt:coil-compose:2.6.0")
 
     // ViewModel y LiveData
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.3")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.2")
 
-    // Room (Base de datos)
+    // Room (Base de datos) ELIMINAR
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+
+    // RetroFit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+    // Test
+    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
