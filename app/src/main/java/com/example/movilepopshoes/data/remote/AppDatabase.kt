@@ -7,9 +7,9 @@ import androidx.room.RoomDatabase
 import com.example.movilepopshoes.data.remote.dao.CalzadoDao
 import com.example.movilepopshoes.data.remote.dao.CarritoDao
 import com.example.movilepopshoes.data.remote.dao.UserDao
-import com.example.movilepopshoes.data.remote.model.Calzado
-import com.example.movilepopshoes.data.remote.model.CarritoItem
-import com.example.movilepopshoes.data.remote.model.Usuario
+import com.example.movilepopshoes.data.model.Calzado
+import com.example.movilepopshoes.data.model.CarritoItem
+import com.example.movilepopshoes.data.model.Usuario
 
 
 @Database(entities = [Usuario::class, Calzado::class, CarritoItem::class], version = 3)

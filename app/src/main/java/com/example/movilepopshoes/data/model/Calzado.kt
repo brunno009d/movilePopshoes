@@ -1,4 +1,4 @@
-package com.example.movilepopshoes.data.remote.model
+package com.example.movilepopshoes.data.model
 
 import androidx.annotation.DrawableRes
 import androidx.room.Entity

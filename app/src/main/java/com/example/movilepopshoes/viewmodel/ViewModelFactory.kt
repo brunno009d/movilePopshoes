@@ -3,8 +3,7 @@ package com.example.movilepopshoes.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.movilepopshoes.data.EstadoDataStore
-import com.example.movilepopshoes.data.remote.dao.UserDao
-import com.example.movilepopshoes.data.remote.repository.UserRepository
+import com.example.movilepopshoes.repository.UserRepository
 
 class ViewModelFactory(
     private val repository: UserRepository,

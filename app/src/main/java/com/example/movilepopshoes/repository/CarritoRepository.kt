@@ -1,9 +1,9 @@
-package com.example.movilepopshoes.data.remote.repository
+package com.example.movilepopshoes.repository
 
 import com.example.movilepopshoes.data.remote.dao.CarritoDao
-import com.example.movilepopshoes.data.remote.model.Calzado
-import com.example.movilepopshoes.data.remote.model.CarritoItem
-import com.example.movilepopshoes.data.remote.model.CarritoItemConCalzado
+import com.example.movilepopshoes.data.model.Calzado
+import com.example.movilepopshoes.data.model.CarritoItem
+import com.example.movilepopshoes.data.model.CarritoItemConCalzado
 import kotlinx.coroutines.flow.Flow
 
 class CarritoRepository(private val carritoDao: CarritoDao) {

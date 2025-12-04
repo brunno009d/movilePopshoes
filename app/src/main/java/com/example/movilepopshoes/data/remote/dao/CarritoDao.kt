@@ -7,8 +7,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.example.movilepopshoes.data.remote.model.CarritoItem
-import com.example.movilepopshoes.data.remote.model.CarritoItemConCalzado
+import com.example.movilepopshoes.data.model.CarritoItem
+import com.example.movilepopshoes.data.model.CarritoItemConCalzado
 import kotlinx.coroutines.flow.Flow
 
 @Dao

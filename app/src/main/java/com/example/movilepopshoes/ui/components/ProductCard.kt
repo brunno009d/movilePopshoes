@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.movilepopshoes.data.remote.model.Calzado
+import com.example.movilepopshoes.data.model.Calzado
 
 @Composable
 fun ProductCard(

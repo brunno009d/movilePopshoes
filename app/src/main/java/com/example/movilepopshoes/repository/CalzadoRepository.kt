@@ -1,9 +1,8 @@
-package com.example.movilepopshoes.data.remote.repository
+package com.example.movilepopshoes.repository
 
-import androidx.annotation.DrawableRes
 import com.example.movilepopshoes.R
 import com.example.movilepopshoes.data.remote.dao.CalzadoDao
-import com.example.movilepopshoes.data.remote.model.Calzado
+import com.example.movilepopshoes.data.model.Calzado
 import kotlinx.coroutines.flow.Flow
 
 

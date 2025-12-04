@@ -1,4 +1,4 @@
-package com.example.movilepopshoes.data.remote.model.formularios
+package com.example.movilepopshoes.data.model.formularios
 
 data class UsuarioUiState (
     val nombre: String = "",

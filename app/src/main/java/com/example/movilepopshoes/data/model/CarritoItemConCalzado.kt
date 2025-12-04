@@ -1,4 +1,4 @@
-package com.example.movilepopshoes.data.remote.model
+package com.example.movilepopshoes.data.model
 
 import androidx.room.Embedded
 import androidx.room.Relation
