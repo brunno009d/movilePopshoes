@@ -1,7 +1,8 @@
 package com.example.movilepopshoes.data.remote
 
 import androidx.core.view.RoundedCornerCompat
-import com.example.movilepopshoes.data.remote.model.CalzadoApi
+import com.example.movilepopshoes.data.remote.model.Calzado
+import com.example.movilepopshoes.data.remote.model.Usuario
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,12 +14,15 @@ interface ApiService {
 
     // Catalogo
     @GET("api/calzados")
-    suspend fun obtenerTodosLosCalzados(): Response<List<CalzadoApi>>
+    suspend fun obtenerTodosLosCalzados(): Response<List<Calzado>>
 
     @GET("api/calzados/{id}")
-    suspend fun obtenerCalzadoPorId(@Path("id") id: Int): Response<CalzadoApi>
+    suspend fun obtenerCalzadoPorId(@Path("id") id: Int): Response<Calzado>
 
     // Usuario
+    @GET("api/usuarios/{id}")
+    suspend fun obetenerUsuarioPorId(@Path("id") id: Int): Response<Usuario>
+
     @POST("api/usuarios")
     suspend fun registrarUsuario(@Body usuario: Usuario): Response<Usuario>
 
