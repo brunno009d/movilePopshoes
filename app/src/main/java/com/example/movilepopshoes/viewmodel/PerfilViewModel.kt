@@ -27,11 +27,12 @@ class PerfilViewModel (
             dataStore.usuario_id.collect { id ->
                 if (id != null) {
                     val u = repository.obtenerUsuarioPorId(id)
+
                     _usuario.value = u?.let {
                         PerfilUiState(
                             nombre = it.nombre,
                             correo = it.correo,
-                            direccion = it.direccion
+                            direccion = it.direccion ?: ""
                         )
                     }
                 } else {
@@ -41,10 +42,9 @@ class PerfilViewModel (
         }
     }
 
-    fun logout(){
+    fun logout() {
         viewModelScope.launch {
             dataStore.cerrarSession()
         }
     }
-
 }

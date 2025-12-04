@@ -24,6 +24,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,8 +88,11 @@ fun ProductDetailScreen(
                         .padding(16.dp),
                     horizontalAlignment = Alignment.Start
                 ) {
-                    Image(
-                        painter = painterResource(id = calzado!!.imagenResId),
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(calzado!!.imagen) // URL del backend
+                            .crossfade(true)
+                            .build(),
                         contentDescription = calzado!!.nombre,
                         modifier = Modifier
                             .fillMaxWidth()
@@ -105,12 +111,6 @@ fun ProductDetailScreen(
                         text = "$${calzado!!.precio}",
                         style = MaterialTheme.typography.headlineLarge,
                         color = MaterialTheme.colorScheme.primary
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "Talla: ${calzado!!.talla}",
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontWeight = FontWeight.Medium
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(

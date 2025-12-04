@@ -15,7 +15,9 @@ import com.example.movilepopshoes.navigation.NavigationEvent
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import androidx.compose.material3.ExperimentalMaterial3Api
 import com.example.movilepopshoes.data.EstadoDataStore
-import com.example.movilepopshoes.data.remote.AppDatabase
+import com.example.movilepopshoes.data.remote.ApiClient
+import com.example.movilepopshoes.data.remote.repository.CalzadoRepository
+import com.example.movilepopshoes.data.remote.repository.CarritoRepository
 import com.example.movilepopshoes.data.remote.repository.UserRepository
 import com.example.movilepopshoes.viewmodel.CarritoViewModel
 import com.example.movilepopshoes.viewmodel.LoginViewModel
@@ -31,11 +33,20 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val db = AppDatabase.getDatabase(applicationContext)
-        val userDao = db.userDao()
-        val repository = UserRepository(userDao)
+        // Inicializar componentes de Api
+        val apiService= ApiClient.service
         val dataStore = EstadoDataStore(applicationContext)
-        val factory = ViewModelFactory(repository, dataStore)
+
+        val userRepository = UserRepository()
+        val calzadoRepository = CalzadoRepository()
+        val carritoRepository = CarritoRepository()
+
+        val factory = ViewModelFactory(
+            userRepository = userRepository,
+            calzadoRepository = calzadoRepository,
+            carritoRepository = carritoRepository,
+            dataStore = dataStore
+        )
 
         val usuarioViewModel: UsuarioViewModel by viewModels { factory }
         val loginViewModel: LoginViewModel by viewModels { factory }
@@ -43,8 +54,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val mainViewModel: MainViewModel = viewModel()
-            val catalogoViewModel: CatalogoViewModel = viewModel()
-            val carritoViewModel: CarritoViewModel = viewModel()
+            val catalogoViewModel: CatalogoViewModel = viewModel(factory = factory)
+            val carritoViewModel: CarritoViewModel = viewModel(factory = factory)
             val navController = rememberNavController()
 
             LaunchedEffect(key1 = Unit) {

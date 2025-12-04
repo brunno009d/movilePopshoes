@@ -1,42 +1,54 @@
 package com.example.movilepopshoes.data.remote.repository
 
-import com.example.movilepopshoes.data.remote.dao.CarritoDao
 import com.example.movilepopshoes.data.remote.model.Calzado
-import com.example.movilepopshoes.data.remote.model.Carrito.CarritoItem
-import com.example.movilepopshoes.data.remote.model.Carrito.CarritoItemConCalzado
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
-class CarritoRepository(private val carritoDao: CarritoDao) {
 
-    val itemsEnCarrito: Flow<List<CarritoItemConCalzado>> = carritoDao.getItemsConCalzado()
+data class CartItem(val calzado: Calzado, var cantidad: Int)
 
-    suspend fun agregarAlCarrito(calzado: Calzado) {
-        val itemExistente = carritoDao.getItemPorCalzadoId(calzado.id)
+class CarritoRepository {
 
-        if (itemExistente != null) {
-            val itemActualizado = itemExistente.copy(cantidad = itemExistente.cantidad + 1)
-            carritoDao.update(itemActualizado)
-        } else {
-            val itemNuevo = CarritoItem(calzadoId = calzado.id, cantidad = 1)
-            carritoDao.insert(itemNuevo)
+    // Lista en memoria en lugar de Base de Datos
+    private val _items = MutableStateFlow<List<CartItem>>(emptyList())
+    val itemsEnCarrito: StateFlow<List<CartItem>> = _items.asStateFlow()
+
+    fun agregarAlCarrito(calzado: Calzado) {
+        _items.update { currentItems ->
+            val existente = currentItems.find { it.calzado.id == calzado.id }
+            if (existente != null) {
+                // Si existe, creamos una nueva lista con la cantidad actualizada
+                currentItems.map {
+                    if (it.calzado.id == calzado.id) it.copy(cantidad = it.cantidad + 1) else it
+                }
+            } else {
+                // Si no existe, lo agregamos
+                currentItems + CartItem(calzado, 1)
+            }
         }
     }
 
-    suspend fun eliminarDelCarrito(item: CarritoItem) {
-        carritoDao.delete(item)
-    }
-
-    suspend fun actualizarCantidad(item: CarritoItem, nuevaCantidad: Int) {
-        if (nuevaCantidad > 0) {
-            val itemActualizado = item.copy(cantidad = nuevaCantidad)
-            carritoDao.update(itemActualizado)
-        } else {
-            // Si la cantidad llega a 0 lo elimina
-            carritoDao.delete(item)
+    fun eliminarDelCarrito(calzadoId: Int) {
+        _items.update { currentItems ->
+            currentItems.filter { it.calzado.id != calzadoId }
         }
     }
 
-    suspend fun vaciarCarrito() {
-        carritoDao.clearCart()
+    fun actualizarCantidad(calzadoId: Int, nuevaCantidad: Int) {
+        if (nuevaCantidad <= 0) {
+            eliminarDelCarrito(calzadoId)
+            return
+        }
+        _items.update { currentItems ->
+            currentItems.map {
+                if (it.calzado.id == calzadoId) it.copy(cantidad = nuevaCantidad) else it
+            }
+        }
+    }
+
+    fun vaciarCarrito() {
+        _items.value = emptyList()
     }
 }

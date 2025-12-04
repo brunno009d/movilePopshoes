@@ -2,7 +2,6 @@ package com.example.movilepopshoes.data.remote.repository
 
 import android.util.Log
 import com.example.movilepopshoes.data.remote.ApiClient
-import com.example.movilepopshoes.data.remote.dao.UserDao
 import com.example.movilepopshoes.data.remote.model.Usuario
 
 class UserRepository{

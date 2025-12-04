@@ -15,10 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.movilepopshoes.data.remote.model.Calzado
 
 @Composable
 fun ProductCard(
@@ -34,13 +38,17 @@ fun ProductCard(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = painterResource(id = calzado.imagenResId), // Imagen de Calzado
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(calzado.imagen) // Aquí pasamos la URL del backend
+                    .crossfade(true)
+                    .build(),
                 contentDescription = calzado.nombre,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1f), // Imagen cuadrada
+                    .aspectRatio(1f),
                 contentScale = ContentScale.Crop
+                // Opcional: placeholder = painterResource(R.drawable.tu_imagen_carga)
             )
             Box(modifier = Modifier.padding(12.dp)) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {

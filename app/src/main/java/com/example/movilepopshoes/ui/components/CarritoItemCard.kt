@@ -22,15 +22,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.movilepopshoes.data.remote.model.Carrito.CarritoItemConCalzado
+import com.example.movilepopshoes.data.remote.repository.CartItem
 
 
 @Composable
 fun CarritoItemCard(
-    item: CarritoItemConCalzado,
+    item: CartItem,
     onAumentar: () -> Unit,
     onDisminuir: () -> Unit,
     onEliminar: () -> Unit,
@@ -45,8 +49,11 @@ fun CarritoItemCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Imagen
-            Image(
-                painter = painterResource(id = item.calzado.imagenResId),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(item.calzado.imagen)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = item.calzado.nombre,
                 modifier = Modifier.size(80.dp),
                 contentScale = ContentScale.Crop
@@ -65,7 +72,7 @@ fun CarritoItemCard(
                     Icon(Icons.Default.Remove, contentDescription = "Disminuir")
                 }
                 Text(
-                    text = "${item.carritoItem.cantidad}",
+                    text = "${item.cantidad}",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 )

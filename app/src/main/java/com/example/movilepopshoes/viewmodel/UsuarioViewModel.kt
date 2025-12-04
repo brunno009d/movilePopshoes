@@ -3,6 +3,7 @@ package com.example.movilepopshoes.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movilepopshoes.data.EstadoDataStore
+import com.example.movilepopshoes.data.remote.model.Usuario
 import com.example.movilepopshoes.data.remote.model.formularios.UsuarioErrores
 import com.example.movilepopshoes.data.remote.model.formularios.UsuarioUiState
 import com.example.movilepopshoes.data.remote.repository.UserRepository
@@ -12,8 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class UsuarioViewModel(
-    private val repository: UserRepository,
-    private val dataStore: EstadoDataStore
+    private val repository: UserRepository
 ): ViewModel() {
 
     //estado interno mutable
@@ -68,7 +68,7 @@ class UsuarioViewModel(
         return !hayErrores
     }
 
-    fun registrarUsuario(){
+    fun registrarUsuario() {
         viewModelScope.launch {
             val e = _estado.value
             val u = Usuario(
@@ -76,10 +76,19 @@ class UsuarioViewModel(
                 correo = e.correo,
                 clave = e.clave,
                 direccion = e.direccion,
-                aceptaTerminos = e.aceptaTerminos
+                // aceptaTerminos no lo envía el backend en el objeto, pero lo validamos localmente
             )
 
-            repository.registrarUsuario(u)
+            val exito = repository.registrarUsuario(u)
+
+            if (exito) {
+                // Aquí podrías navegar al login o mostrar mensaje de éxito
+                println("Usuario registrado en API correctamente")
+                // Resetear estado o navegar
+            } else {
+                // Manejar el error (ej: mostrar Toast o actualizar estado de error)
+                println("Error al registrar usuario en API")
+            }
         }
     }
 }

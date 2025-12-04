@@ -50,27 +50,26 @@ class LoginViewModel(
         return !hayErrores
     }
 
-    fun loguin(){
-        // verificar
+    fun loguin() {
         if (!validarFormularioLogin()) return
 
         viewModelScope.launch {
             val correo = _estado.value.correo
             val clave = _estado.value.clave
 
-            val usuario = repository.obtenerUsuarioPorCorreo(correo)
+            // LLAMADA A LA API
+            val usuario = repository.login(correo, clave)
 
-            if (usuario != null && usuario.clave == clave) {
+            if (usuario != null) {
+                // Login exitoso: Guardamos sesión
                 dataStore.guardarSession(usuario.id, true)
                 _estado.update { it.copy(logueado = true) }
-            }
-
-            else {
+            } else {
+                // Login fallido
                 _estado.update {
                     it.copy(errores = it.errores.copy(correo = "Correo o Contraseña Incorrectos"))
                 }
             }
-
         }
     }
 

@@ -3,24 +3,33 @@ package com.example.movilepopshoes.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.movilepopshoes.data.EstadoDataStore
-import com.example.movilepopshoes.data.remote.dao.UserDao
+import com.example.movilepopshoes.data.remote.repository.CalzadoRepository
+import com.example.movilepopshoes.data.remote.repository.CarritoRepository
 import com.example.movilepopshoes.data.remote.repository.UserRepository
 
 class ViewModelFactory(
-    private val repository: UserRepository,
+    private val calzadoRepository: CalzadoRepository,
+    private val userRepository: UserRepository,
+    private val carritoRepository: CarritoRepository,
     private val dataStore: EstadoDataStore
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(UsuarioViewModel::class.java) -> {
-                UsuarioViewModel(repository, dataStore) as T
+                UsuarioViewModel(userRepository) as T
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
-                LoginViewModel(repository, dataStore) as T
+                LoginViewModel(userRepository, dataStore) as T
             }
             modelClass.isAssignableFrom(PerfilViewModel::class.java) -> {
-                PerfilViewModel(repository, dataStore) as T
+                PerfilViewModel(userRepository, dataStore) as T
+            }
+            modelClass.isAssignableFrom(CatalogoViewModel::class.java) -> {
+                CatalogoViewModel(calzadoRepository) as T
+            }
+            modelClass.isAssignableFrom(CarritoViewModel::class.java) -> {
+                CarritoViewModel(carritoRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel Class")
         }

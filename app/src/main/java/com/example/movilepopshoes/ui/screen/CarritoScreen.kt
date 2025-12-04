@@ -62,12 +62,12 @@ fun CarritoScreen(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(items, key = { it.carritoItem.id }) { item ->
+                items(items, key = { it.calzado.id }) { item -> // La key ahora es el ID del calzado
                     CarritoItemCard(
                         item = item,
-                        onAumentar = { viewModel.aumentarCantidad(item.carritoItem) },
-                        onDisminuir = { viewModel.disminuirCantidad(item.carritoItem) },
-                        onEliminar = { viewModel.eliminarDelCarrito(item.carritoItem) }
+                        onAumentar = { viewModel.aumentarCantidad(item.calzado.id, item.cantidad) },
+                        onDisminuir = { viewModel.disminuirCantidad(item.calzado.id, item.cantidad) },
+                        onEliminar = { viewModel.eliminarDelCarrito(item.calzado.id) }
                     )
                 }
             }
