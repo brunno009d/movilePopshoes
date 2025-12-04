@@ -29,7 +29,7 @@ class UserRepository{
         return try {
             // Creamos un usuario temporal solo con correo y clave para enviar al backend
             val usuarioLogin = Usuario(
-                nombre = "", // No importa para login
+                nombre = "",
                 correo = correo,
                 clave = clave
             )
