@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movilepopshoes.data.remote.AppDatabase
-import com.example.movilepopshoes.data.remote.model.Calzado
 import com.example.movilepopshoes.data.remote.repository.CalzadoRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

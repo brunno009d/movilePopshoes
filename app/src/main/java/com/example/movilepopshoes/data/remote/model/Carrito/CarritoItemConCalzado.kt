@@ -1,8 +1,8 @@
-package com.example.movilepopshoes.data.remote.model
+package com.example.movilepopshoes.data.remote.model.Carrito
 
 import androidx.room.Embedded
 import androidx.room.Relation
-
+import com.example.movilepopshoes.data.remote.model.Calzado
 
 data class CarritoItemConCalzado(
 

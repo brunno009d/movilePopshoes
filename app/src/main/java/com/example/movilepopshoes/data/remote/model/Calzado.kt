@@ -1,16 +1,30 @@
 package com.example.movilepopshoes.data.remote.model
 
-import androidx.annotation.DrawableRes
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "calzado")
-data class Calzado (
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+data class Calzado(
+    val id: Int,
     val nombre: String,
-    val talla: Int,
     val precio: Int,
     val descripcion: String,
-    @DrawableRes val imagenResId: Int
-){
-}
+    val stock: Int,
+
+    @SerializedName("imagen")
+    val imagen: String? = null,
+
+    val marca: Marca? = null,
+
+    // Lo mismo para género
+    val genero: Genero? = null
+)
+
+// Clases "extra" para mapear los objetos que vienen dentro del JSON de Calzado
+data class Marca(
+    val id: Int,
+    val nombre: String
+)
+
+data class Genero(
+    val id: Int,
+    val nombre: String
+)

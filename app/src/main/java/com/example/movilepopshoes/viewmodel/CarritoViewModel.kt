@@ -4,9 +4,8 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movilepopshoes.data.remote.AppDatabase
-import com.example.movilepopshoes.data.remote.model.Calzado
-import com.example.movilepopshoes.data.remote.model.CarritoItem
-import com.example.movilepopshoes.data.remote.model.CarritoItemConCalzado
+import com.example.movilepopshoes.data.remote.model.Carrito.CarritoItem
+import com.example.movilepopshoes.data.remote.model.Carrito.CarritoItemConCalzado
 import com.example.movilepopshoes.data.remote.repository.CarritoRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted

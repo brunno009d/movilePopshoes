@@ -1,9 +1,10 @@
-package com.example.movilepopshoes.data.remote.model
+package com.example.movilepopshoes.data.remote.model.Carrito
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.example.movilepopshoes.data.remote.model.Calzado
 
 @Entity(
     tableName = "carrito_items",
@@ -13,7 +14,7 @@ import androidx.room.PrimaryKey
             entity = Calzado::class,
             parentColumns = ["id"],
             childColumns = ["calzadoId"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.Companion.CASCADE
         )
     ]
 )

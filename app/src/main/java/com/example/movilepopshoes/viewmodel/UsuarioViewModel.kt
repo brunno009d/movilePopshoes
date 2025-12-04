@@ -3,7 +3,6 @@ package com.example.movilepopshoes.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movilepopshoes.data.EstadoDataStore
-import com.example.movilepopshoes.data.remote.model.Usuario
 import com.example.movilepopshoes.data.remote.model.formularios.UsuarioErrores
 import com.example.movilepopshoes.data.remote.model.formularios.UsuarioUiState
 import com.example.movilepopshoes.data.remote.repository.UserRepository
