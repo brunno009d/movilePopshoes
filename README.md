@@ -27,6 +27,9 @@ La aplicación cuenta con las siguientes características principales:
 * `POST /api/usuarios`
 * `POST /api/usuarios/login`
 
+### Compras
+* `POST /api/compras`
+
 ## Pasos para ejecutar
 
 La aplicación está configurada para conectarse automáticamente al backend desplegado en la nube.
