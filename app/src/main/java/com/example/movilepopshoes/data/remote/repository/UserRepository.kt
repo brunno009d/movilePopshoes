@@ -26,7 +26,6 @@ class UserRepository{
 
     suspend fun login(correo: String, clave: String): Usuario? {
         return try {
-            // Creamos un usuario temporal solo con correo y clave para enviar al backend
             val usuarioLogin = Usuario(
                 nombre = "",
                 correo = correo,
@@ -43,7 +42,7 @@ class UserRepository{
                 null
             }
         } catch (e: Exception) {
-            Log.e("API_USER", "Fallo conexión login: ${e.message}")
+            Log.e("API_USER", "Fallo conexion login: ${e.message}")
             null
         }
     }
@@ -58,7 +57,7 @@ class UserRepository{
                 null
             }
         } catch (e: Exception) {
-            Log.e("API_USER", "Fallo conexión obtener usuario: ${e.message}")
+            Log.e("API_USER", "Fallo conexion obtener usuario: ${e.message}")
             null
         }
     }

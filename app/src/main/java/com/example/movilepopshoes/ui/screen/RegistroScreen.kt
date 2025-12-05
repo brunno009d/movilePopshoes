@@ -56,8 +56,8 @@ fun RegistroScreen(
 
     LaunchedEffect(registroExitoso) {
         if (registroExitoso) {
-            mainViewModel.navigateTo(Screen.Inicio) // O Screen.Inicio, donde quieras ir
-            viewModel.resetearExito() // Limpiamos para la próxima
+            mainViewModel.navigateTo(Screen.Inicio)
+            viewModel.resetearExito()
         }
     }
 
@@ -160,9 +160,7 @@ fun RegistroScreen(
             Button(
                 onClick = {
                     if (viewModel.validarFormulario()) {
-                        // 3. SOLO LLAMAMOS AL REGISTRO, QUITAMOS LA NAVEGACIÓN MANUAL
                         viewModel.registrarUsuario()
-                        // BORRA ESTA LÍNEA: mainViewModel.navigateTo(Screen.Inicio)
                     }
                 },
                 enabled = estado.aceptaTerminos,

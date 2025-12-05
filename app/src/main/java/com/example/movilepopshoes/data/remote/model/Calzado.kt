@@ -8,17 +8,11 @@ data class Calzado(
     val precio: Int,
     val descripcion: String,
     val stock: Int,
-
     @SerializedName("imagen")
     val imagen: String? = null,
-
     val marca: Marca? = null,
-
-    // Lo mismo para género
     val genero: Genero? = null
 )
-
-// Clases "extra" para mapear los objetos que vienen dentro del JSON de Calzado
 data class Marca(
     val id: Int,
     val nombre: String

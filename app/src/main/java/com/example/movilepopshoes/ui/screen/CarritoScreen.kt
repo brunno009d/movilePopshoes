@@ -62,7 +62,7 @@ fun CarritoScreen(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(items, key = { it.calzado.id }) { item -> // La key ahora es el ID del calzado
+                items(items, key = { it.calzado.id }) { item ->
                     CarritoItemCard(
                         item = item,
                         onAumentar = { viewModel.aumentarCantidad(item.calzado.id, item.cantidad) },

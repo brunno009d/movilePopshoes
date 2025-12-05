@@ -40,7 +40,7 @@ fun ProductCard(
         ) {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(calzado.imagen) // Aquí pasamos la URL del backend
+                    .data(calzado.imagen)
                     .crossfade(true)
                     .build(),
                 contentDescription = calzado.nombre,
@@ -48,7 +48,6 @@ fun ProductCard(
                     .fillMaxWidth()
                     .aspectRatio(1f),
                 contentScale = ContentScale.Crop
-                // Opcional: placeholder = painterResource(R.drawable.tu_imagen_carga)
             )
             Box(modifier = Modifier.padding(12.dp)) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
@@ -59,7 +58,6 @@ fun ProductCard(
                         textAlign = TextAlign.Center
                     )
                     Text(
-                        // Formateamos el Int como String de precio
                         text = "$${calzado.precio}",
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center

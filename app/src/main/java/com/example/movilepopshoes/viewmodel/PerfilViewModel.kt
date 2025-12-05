@@ -32,7 +32,8 @@ class PerfilViewModel (
                         PerfilUiState(
                             nombre = it.nombre,
                             correo = it.correo,
-                            direccion = it.direccion ?: ""
+                            direccion = it.direccion ?: "",
+                            imagen = it.imagenUsuario
                         )
                     }
                 } else {

@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.update
 data class CartItem(val calzado: Calzado, var cantidad: Int)
 
 class CarritoRepository {
-
-    // Lista en memoria en lugar de Base de Datos
     private val _items = MutableStateFlow<List<CartItem>>(emptyList())
     val itemsEnCarrito: StateFlow<List<CartItem>> = _items.asStateFlow()
 
@@ -19,12 +17,10 @@ class CarritoRepository {
         _items.update { currentItems ->
             val existente = currentItems.find { it.calzado.id == calzado.id }
             if (existente != null) {
-                // Si existe, creamos una nueva lista con la cantidad actualizada
                 currentItems.map {
                     if (it.calzado.id == calzado.id) it.copy(cantidad = it.cantidad + 1) else it
                 }
             } else {
-                // Si no existe, lo agregamos
                 currentItems + CartItem(calzado, 1)
             }
         }

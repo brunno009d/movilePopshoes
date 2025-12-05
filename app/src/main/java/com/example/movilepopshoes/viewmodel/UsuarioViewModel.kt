@@ -74,8 +74,6 @@ class UsuarioViewModel(
     fun registrarUsuario() {
         viewModelScope.launch {
             val e = _estado.value
-
-            // Asegúrate de enviar el ROL y DATOS POR DEFECTO como acordamos
             val u = Usuario(
                 nombre = e.nombre,
                 correo = e.correo,
@@ -92,10 +90,8 @@ class UsuarioViewModel(
             val exito = repository.registrarUsuario(u)
 
             if (exito) {
-                // 2. AVISAMOS A LA VISTA QUE FUE UN ÉXITO
                 _registroExitoso.value = true
             } else {
-                // Aquí podrías poner un mensaje de error en el estado
                 println("Error al registrar usuario en API")
             }
         }

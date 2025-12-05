@@ -49,6 +49,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.movilepopshoes.navigation.Screen
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.PerfilViewModel
@@ -141,15 +143,26 @@ fun ProfileScreen(
                         bitmap != null -> {
                             Image(
                                 bitmap = bitmap!!.asImageBitmap(),
-                                contentDescription = "Foto de perfil tomada",
+                                contentDescription = "Foto nueva",
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop
                             )
                         }
                         imageUri != null -> {
-                            Image(
-                                painter = rememberAsyncImagePainter(imageUri),
-                                contentDescription = "Foto de perfil seleccionada",
+                            AsyncImage(
+                                model = imageUri,
+                                contentDescription = "Foto seleccionada",
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        usuario?.imagen != null -> {
+                            AsyncImage(
+                                model = ImageRequest.Builder(LocalContext.current)
+                                    .data(usuario!!.imagen)
+                                    .crossfade(true)
+                                    .build(),
+                                contentDescription = "Foto de perfil guardada",
                                 modifier = Modifier.fillMaxSize(),
                                 contentScale = ContentScale.Crop
                             )
@@ -157,7 +170,7 @@ fun ProfileScreen(
                         else -> {
                             Icon(
                                 imageVector = Icons.Default.Person,
-                                contentDescription = "Placeholder de perfil",
+                                contentDescription = "Sin foto",
                                 modifier = Modifier.size(100.dp),
                                 tint = MaterialTheme.colorScheme.primary
                             )

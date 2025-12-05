@@ -33,8 +33,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Inicializar componentes de Api
-        val apiService= ApiClient.service
         val dataStore = EstadoDataStore(applicationContext)
 
         val userRepository = UserRepository()

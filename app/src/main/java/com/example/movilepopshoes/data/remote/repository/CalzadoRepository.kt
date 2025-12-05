@@ -12,13 +12,10 @@ import kotlinx.coroutines.flow.flow
 class CalzadoRepository {
 
     private val api = ApiClient.service
-
-    // 2. Convertimos la llamada de red a un Flow para que el ViewModel no se queje
     val allCalzados: Flow<List<Calzado>> = flow {
         try {
             val response = api.obtenerTodosLosCalzados()
             if (response.isSuccessful) {
-                // Emitimos la lista que viene de Internet
                 emit(response.body() ?: emptyList())
             } else {
                 Log.e("API_CALZADO", "Error: ${response.code()}")

@@ -90,7 +90,7 @@ fun ProductDetailScreen(
                 ) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
-                            .data(calzado!!.imagen) // URL del backend
+                            .data(calzado!!.imagen)
                             .crossfade(true)
                             .build(),
                         contentDescription = calzado!!.nombre,

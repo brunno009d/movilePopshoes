@@ -30,7 +30,6 @@ class CarritoViewModel(private val repository: CarritoRepository) : ViewModel() 
         repository.agregarAlCarrito(calzado)
     }
 
-    // Nota: cambié el parámetro de CartItem a Calzado o ID para simplificar
     fun eliminarDelCarrito(calzadoId: Int) {
         repository.eliminarDelCarrito(calzadoId)
     }
