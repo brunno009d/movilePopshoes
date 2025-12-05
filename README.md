@@ -28,7 +28,7 @@ La aplicación cuenta con las siguientes características principales:
 * `POST /api/usuarios/login`
 
 ### Compras
-* "POST /api/compras"
+* `POST /api/compras`
 
 ## Pasos para ejecutar
 
