@@ -2,53 +2,28 @@ package com.example.movilepopshoes.ui.screen
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import coil.compose.rememberAsyncImagePainter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.movilepopshoes.navigation.Screen
@@ -64,44 +39,26 @@ fun ProfileScreen(
     val logueado by viewModel.logueado.collectAsState()
     val usuario by viewModel.usuario.collectAsState()
 
+    // Estados de datos
+    val nombre by viewModel.nombre.collectAsState()
+    val correo by viewModel.correo.collectAsState()
+    val direccion by viewModel.direccion.collectAsState()
+    val mensaje by viewModel.mensaje.collectAsState()
 
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
-    var bitmap by remember { mutableStateOf<Bitmap?>(null) }
+    // Estado de modo edición
+    val editando by viewModel.editando.collectAsState()
+
     val context = LocalContext.current
 
-    val takePictureLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicturePreview()
-    ) { bmp ->
-        if (bmp != null) {
-            bitmap = bmp
-            imageUri = null
+    LaunchedEffect(mensaje) {
+        mensaje?.let {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            viewModel.limpiarMensaje()
         }
     }
-
-    val permissionsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            takePictureLauncher.launch(null)
-        } else {
-            Toast.makeText(context, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    val selectImageLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri ->
-        if (uri != null) {
-            imageUri = uri
-            bitmap = null
-        }
-    }
-
 
     Scaffold(
-        topBar = {
-            TopAppBar(title = { Text("Mi Perfil") })
-        }
+        topBar = { TopAppBar(title = { Text("Mi Perfil") }) }
     ) { innerPadding ->
         Column(
             Modifier
@@ -112,26 +69,14 @@ fun ProfileScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-
             if (!logueado) {
+                // ... (Código para usuario no logueado se mantiene igual)
                 Spacer(modifier = Modifier.height(32.dp))
                 Text("Perfil", style = MaterialTheme.typography.headlineMedium)
-
-                Button(
-                    onClick = { mainViewModel.navigateTo(Screen.Inicio) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Iniciar sesión")
-                }
-
-                Button(
-                    onClick = { mainViewModel.navigateTo(Screen.Registro) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Registrarse")
-                }
+                Button(onClick = { mainViewModel.navigateTo(Screen.Inicio) }) { Text("Iniciar sesión") }
             } else {
 
+                // --- FOTO DE PERFIL (Solo visualización) ---
                 Box(
                     modifier = Modifier
                         .size(150.dp)
@@ -139,86 +84,120 @@ fun ProfileScreen(
                         .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    when {
-                        bitmap != null -> {
-                            Image(
-                                bitmap = bitmap!!.asImageBitmap(),
-                                contentDescription = "Foto nueva",
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-                        imageUri != null -> {
-                            AsyncImage(
-                                model = imageUri,
-                                contentDescription = "Foto seleccionada",
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-                        usuario?.imagen != null -> {
-                            AsyncImage(
-                                model = ImageRequest.Builder(LocalContext.current)
-                                    .data(usuario!!.imagen)
-                                    .crossfade(true)
-                                    .build(),
-                                contentDescription = "Foto de perfil guardada",
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-                        else -> {
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = "Sin foto",
-                                modifier = Modifier.size(100.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Button(onClick = {
-                        val permissionCheckResult = ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.CAMERA
+                    if (usuario?.imagen != null) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(usuario!!.imagen)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = "Foto de perfil",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
                         )
-                        if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
-                            takePictureLauncher.launch(null)
-                        } else {
-                            permissionsLauncher.launch(Manifest.permission.CAMERA)
-                        }
-                    }) {
-                        Text("📷 Tomar Foto")
-                    }
-
-                    Button(onClick = { selectImageLauncher.launch("image/*") }) {
-                        Text("🖼️ Galería")
+                    } else {
+                        Icon(Icons.Default.Person, "Sin foto", Modifier.size(100.dp), tint = MaterialTheme.colorScheme.primary)
                     }
                 }
 
                 Divider()
 
-                usuario?.let {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        Text("Nombre: ${it.nombre}", style = MaterialTheme.typography.bodyLarge)
-                        Text("Correo: ${it.correo}", style = MaterialTheme.typography.bodyLarge)
-                        Text("Dirección: ${it.direccion}", style = MaterialTheme.typography.bodyLarge)
+                // --- FORMULARIO DE DATOS ---
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("Información Personal", style = MaterialTheme.typography.titleMedium)
+
+                    // Botón pequeño de editar si NO estamos editando
+                    if (!editando) {
+                        IconButton(onClick = { viewModel.activarEdicion() }) {
+                            Icon(Icons.Default.Edit, contentDescription = "Editar")
+                        }
                     }
                 }
+
+                // Configuración de colores para el modo "Deshabilitado/Gris"
+                val disabledColors = OutlinedTextFieldDefaults.colors(
+                    disabledTextColor = Color.DarkGray,
+                    disabledBorderColor = Color.LightGray,
+                    disabledLabelColor = Color.Gray,
+                    disabledContainerColor = Color(0xFFF5F5F5) // Un gris muy clarito de fondo
+                )
+
+                OutlinedTextField(
+                    value = nombre,
+                    onValueChange = { viewModel.onNombreChange(it) },
+                    label = { Text("Nombre") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    enabled = editando, // Se activa solo si editando es true
+                    colors = disabledColors
+                )
+
+                OutlinedTextField(
+                    value = correo,
+                    onValueChange = { viewModel.onCorreoChange(it) },
+                    label = { Text("Correo") },
+                    modifier = Modifier.fillMaxWidth(),
+                    singleLine = true,
+                    enabled = editando,
+                    colors = disabledColors
+                )
+
+                OutlinedTextField(
+                    value = direccion,
+                    onValueChange = { viewModel.onDireccionChange(it) },
+                    label = { Text("Dirección") },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = editando,
+                    colors = disabledColors
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // --- BOTONES DINÁMICOS ---
+                if (!editando) {
+                    // MODO VISUALIZACIÓN: Solo mostramos botón de editar grande
+                    Button(
+                        onClick = { viewModel.activarEdicion() },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Editar Datos")
+                    }
+                } else {
+                    // MODO EDICIÓN: Mostramos Guardar y Cancelar
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Button(
+                            onClick = { viewModel.cancelarEdicion() },
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                        ) {
+                            Text("Cancelar")
+                        }
+
+                        Button(
+                            onClick = { viewModel.guardarDatos() },
+                            modifier = Modifier.weight(1f)
+                        ) {
+                            Text("Guardar")
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
                     onClick = {
                         viewModel.logout()
                         mainViewModel.navigateTo(Screen.Inicio)
                     },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error
+                    ),
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text("Cerrar sesión")

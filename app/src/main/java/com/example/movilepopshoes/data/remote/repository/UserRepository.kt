@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.movilepopshoes.data.remote.ApiClient
 import com.example.movilepopshoes.data.remote.model.Usuario
 
-class UserRepository{
+class UserRepository {
 
     private val api = ApiClient.service
 
@@ -59,6 +59,24 @@ class UserRepository{
         } catch (e: Exception) {
             Log.e("API_USER", "Fallo conexion obtener usuario: ${e.message}")
             null
+        }
+    }
+
+    // --- AQUÍ ESTÁ LA FUNCIÓN QUE NECESITAS ---
+    // Asegúrate de que esté dentro de la clase, pero fuera de las otras funciones
+    suspend fun actualizarDatos(id: Int, usuario: Usuario): Boolean {
+        return try {
+            val response = api.actualizarDatosUsuario(id, usuario)
+            if (response.isSuccessful) {
+                Log.d("API_USER", "Datos actualizados correctamente")
+                true
+            } else {
+                Log.e("API_USER", "Error al actualizar: ${response.code()}")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("API_USER", "Excepción al actualizar: ${e.message}")
+            false
         }
     }
 }
