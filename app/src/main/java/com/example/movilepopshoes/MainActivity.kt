@@ -15,11 +15,10 @@ import com.example.movilepopshoes.navigation.NavigationEvent
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import androidx.compose.material3.ExperimentalMaterial3Api
 import com.example.movilepopshoes.data.EstadoDataStore
-import com.example.movilepopshoes.data.remote.ApiClient
-import com.example.movilepopshoes.data.remote.repository.CalzadoRepository
-import com.example.movilepopshoes.data.remote.repository.CarritoRepository
-import com.example.movilepopshoes.data.remote.repository.CompraRepository
-import com.example.movilepopshoes.data.remote.repository.UserRepository
+import com.example.movilepopshoes.repository.CalzadoRepository
+import com.example.movilepopshoes.repository.CarritoRepository
+import com.example.movilepopshoes.repository.CompraRepository
+import com.example.movilepopshoes.repository.UserRepository
 import com.example.movilepopshoes.viewmodel.CarritoViewModel
 import com.example.movilepopshoes.viewmodel.LoginViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel

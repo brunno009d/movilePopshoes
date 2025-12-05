@@ -3,12 +3,12 @@ package com.example.movilepopshoes.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movilepopshoes.data.EstadoDataStore
-import com.example.movilepopshoes.data.remote.model.Calzado
-import com.example.movilepopshoes.data.remote.model.CompraRequest
-import com.example.movilepopshoes.data.remote.model.DetalleCompraRequest
-import com.example.movilepopshoes.data.remote.model.ObjetoId
-import com.example.movilepopshoes.data.remote.repository.CarritoRepository
-import com.example.movilepopshoes.data.remote.repository.CompraRepository
+import com.example.movilepopshoes.data.model.Calzado
+import com.example.movilepopshoes.data.model.CompraRequest
+import com.example.movilepopshoes.data.model.DetalleCompraRequest
+import com.example.movilepopshoes.data.model.ObjetoId
+import com.example.movilepopshoes.repository.CarritoRepository
+import com.example.movilepopshoes.repository.CompraRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -17,9 +17,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class CarritoViewModel(
     private val carritoRepository: CarritoRepository,

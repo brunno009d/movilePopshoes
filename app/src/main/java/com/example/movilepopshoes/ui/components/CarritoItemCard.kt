@@ -1,6 +1,5 @@
 package com.example.movilepopshoes.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,13 +22,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.movilepopshoes.data.remote.model.Carrito.CarritoItemConCalzado
-import com.example.movilepopshoes.data.remote.repository.CartItem
+import com.example.movilepopshoes.repository.CartItem
 
 
 @Composable

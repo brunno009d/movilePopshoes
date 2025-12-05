@@ -1,4 +1,4 @@
-package com.example.movilepopshoes.data.remote.model
+package com.example.movilepopshoes.data.model
 
 import com.google.gson.annotations.SerializedName
 

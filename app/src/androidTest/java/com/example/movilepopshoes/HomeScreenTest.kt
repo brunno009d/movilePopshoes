@@ -4,7 +4,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.movilepopshoes.data.remote.repository.CalzadoRepository
+import com.example.movilepopshoes.repository.CalzadoRepository
 import com.example.movilepopshoes.ui.screen.HomeScreen
 import com.example.movilepopshoes.viewmodel.CatalogoViewModel
 import com.example.movilepopshoes.viewmodel.MainViewModel

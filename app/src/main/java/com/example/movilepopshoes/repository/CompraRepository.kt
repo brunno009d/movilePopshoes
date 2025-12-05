@@ -1,8 +1,8 @@
-package com.example.movilepopshoes.data.remote.repository
+package com.example.movilepopshoes.repository
 
 import android.util.Log
 import com.example.movilepopshoes.data.remote.ApiClient
-import com.example.movilepopshoes.data.remote.model.CompraRequest
+import com.example.movilepopshoes.data.model.CompraRequest
 
 class CompraRepository {
     private val api = ApiClient.service

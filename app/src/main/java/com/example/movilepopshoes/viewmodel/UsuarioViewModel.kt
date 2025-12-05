@@ -2,11 +2,11 @@ package com.example.movilepopshoes.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movilepopshoes.data.remote.model.Rol
-import com.example.movilepopshoes.data.remote.model.Usuario
-import com.example.movilepopshoes.data.remote.model.formularios.UsuarioErrores
-import com.example.movilepopshoes.data.remote.model.formularios.UsuarioUiState
-import com.example.movilepopshoes.data.remote.repository.UserRepository
+import com.example.movilepopshoes.data.model.Rol
+import com.example.movilepopshoes.data.model.Usuario
+import com.example.movilepopshoes.data.model.formularios.UsuarioErrores
+import com.example.movilepopshoes.data.model.formularios.UsuarioUiState
+import com.example.movilepopshoes.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

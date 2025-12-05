@@ -1,4 +1,4 @@
-package com.example.movilepopshoes.data.remote.model.formularios
+package com.example.movilepopshoes.data.model.formularios
 
 data class UsuarioErrores (
     val nombre: String? = null,

@@ -1,10 +1,10 @@
-package com.example.movilepopshoes.data.remote.repository
+package com.example.movilepopshoes.repository
 
 import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.example.movilepopshoes.data.remote.ApiClient
-import com.example.movilepopshoes.data.remote.model.Usuario
+import com.example.movilepopshoes.data.model.Usuario
 import com.example.movilepopshoes.utils.uriToMultipart
 
 class UserRepository {

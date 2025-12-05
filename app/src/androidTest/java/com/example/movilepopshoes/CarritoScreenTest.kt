@@ -6,8 +6,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.example.movilepopshoes.data.EstadoDataStore
-import com.example.movilepopshoes.data.remote.repository.CarritoRepository
-import com.example.movilepopshoes.data.remote.repository.CompraRepository
+import com.example.movilepopshoes.repository.CarritoRepository
+import com.example.movilepopshoes.repository.CompraRepository
 import com.example.movilepopshoes.ui.screen.CarritoScreen
 import com.example.movilepopshoes.viewmodel.CarritoViewModel
 import org.junit.Rule

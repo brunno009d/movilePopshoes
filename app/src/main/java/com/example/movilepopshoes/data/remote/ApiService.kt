@@ -1,9 +1,9 @@
 package com.example.movilepopshoes.data.remote
 
-import com.example.movilepopshoes.data.remote.model.Calzado
-import com.example.movilepopshoes.data.remote.model.CompraRequest
-import com.example.movilepopshoes.data.remote.model.ImgBBResponse
-import com.example.movilepopshoes.data.remote.model.Usuario
+import com.example.movilepopshoes.data.model.Calzado
+import com.example.movilepopshoes.data.model.CompraRequest
+import com.example.movilepopshoes.data.model.ImgBBResponse
+import com.example.movilepopshoes.data.model.Usuario
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body

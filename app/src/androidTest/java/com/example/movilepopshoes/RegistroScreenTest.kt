@@ -6,7 +6,7 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.movilepopshoes.data.remote.repository.UserRepository
+import com.example.movilepopshoes.repository.UserRepository
 import com.example.movilepopshoes.ui.screen.RegistroScreen
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel

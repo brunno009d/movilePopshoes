@@ -1,6 +1,6 @@
-package com.example.movilepopshoes.data.remote.repository
+package com.example.movilepopshoes.repository
 
-import com.example.movilepopshoes.data.remote.model.Calzado
+import com.example.movilepopshoes.data.model.Calzado
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

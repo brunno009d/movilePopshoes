@@ -1,10 +1,10 @@
-package com.example.movilepopshoes.data.remote.model.Carrito
+package com.example.movilepopshoes.data.model.Carrito
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.example.movilepopshoes.data.remote.model.Calzado
+import com.example.movilepopshoes.data.model.Calzado
 
 @Entity(
     tableName = "carrito_items",
