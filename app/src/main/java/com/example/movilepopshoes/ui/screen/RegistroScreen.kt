@@ -28,6 +28,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 // --- Importaciones para Password ---
 import androidx.compose.runtime.mutableStateOf
@@ -52,6 +53,14 @@ fun RegistroScreen(
 ) {
     val estado by viewModel.estado.collectAsState()
     var passwordVisible by remember { mutableStateOf(false) }
+    val registroExitoso by viewModel.registroExitoso.collectAsState()
+
+    LaunchedEffect(registroExitoso) {
+        if (registroExitoso) {
+            mainViewModel.navigateTo(Screen.Inicio) // O Screen.Inicio, donde quieras ir
+            viewModel.resetearExito() // Limpiamos para la próxima
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -152,8 +161,9 @@ fun RegistroScreen(
             Button(
                 onClick = {
                     if (viewModel.validarFormulario()) {
+                        // 3. SOLO LLAMAMOS AL REGISTRO, QUITAMOS LA NAVEGACIÓN MANUAL
                         viewModel.registrarUsuario()
-                        mainViewModel.navigateTo(Screen.Inicio)
+                        // BORRA ESTA LÍNEA: mainViewModel.navigateTo(Screen.Inicio)
                     }
                 },
                 enabled = estado.aceptaTerminos,

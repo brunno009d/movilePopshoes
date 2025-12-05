@@ -2,7 +2,7 @@ package com.example.movilepopshoes.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movilepopshoes.data.EstadoDataStore
+import com.example.movilepopshoes.data.remote.model.Rol
 import com.example.movilepopshoes.data.remote.model.Usuario
 import com.example.movilepopshoes.data.remote.model.formularios.UsuarioErrores
 import com.example.movilepopshoes.data.remote.model.formularios.UsuarioUiState
@@ -18,6 +18,9 @@ class UsuarioViewModel(
 
     //estado interno mutable
     private val _estado = MutableStateFlow(UsuarioUiState())
+
+    private val _registroExitoso = MutableStateFlow(false)
+    val registroExitoso: StateFlow<Boolean> = _registroExitoso
 
     //Estado expuesto para la ui
     val estado: StateFlow<UsuarioUiState> = _estado
@@ -71,24 +74,33 @@ class UsuarioViewModel(
     fun registrarUsuario() {
         viewModelScope.launch {
             val e = _estado.value
+
+            // Asegúrate de enviar el ROL y DATOS POR DEFECTO como acordamos
             val u = Usuario(
                 nombre = e.nombre,
                 correo = e.correo,
                 clave = e.clave,
                 direccion = e.direccion,
-                // aceptaTerminos no lo envía el backend en el objeto, pero lo validamos localmente
+                run = "11.111.111-1",
+                apaterno = "Apellido",
+                amaterno = "Apellido",
+                fechaNacimiento = "2000-01-01",
+                fechaCreacion = "2023-11-25T10:00:00.000+00:00",
+                rol = Rol(id = 2, nombre = "Cliente")
             )
 
             val exito = repository.registrarUsuario(u)
 
             if (exito) {
-                // Aquí podrías navegar al login o mostrar mensaje de éxito
-                println("Usuario registrado en API correctamente")
-                // Resetear estado o navegar
+                // 2. AVISAMOS A LA VISTA QUE FUE UN ÉXITO
+                _registroExitoso.value = true
             } else {
-                // Manejar el error (ej: mostrar Toast o actualizar estado de error)
+                // Aquí podrías poner un mensaje de error en el estado
                 println("Error al registrar usuario en API")
             }
         }
+    }
+    fun resetearExito() {
+        _registroExitoso.value = false
     }
 }
