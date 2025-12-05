@@ -1,7 +1,7 @@
 package com.example.movilepopshoes.viewmodel
 
-import android.graphics.Bitmap
-import android.util.Base64
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movilepopshoes.data.EstadoDataStore
@@ -14,7 +14,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 
 class PerfilViewModel(
     private val repository: UserRepository,
@@ -41,6 +40,8 @@ class PerfilViewModel(
 
     private val _mensaje = MutableStateFlow<String?>(null)
     val mensaje = _mensaje.asStateFlow()
+
+    private var _fotoPendienteUri: Uri? = null
 
     private var currentUserId: Int? = null
 
@@ -73,7 +74,12 @@ class PerfilViewModel(
 
     fun cancelarEdicion() {
         _editando.value = false
+        _fotoPendienteUri = null // Limpiamos la foto pendiente
         _usuario.value?.let { resetearCampos(it.nombre, it.correo, it.direccion) }
+    }
+
+    fun onFotoSeleccionada(uri: Uri) {
+        _fotoPendienteUri = uri
     }
 
     private fun resetearCampos(nombre: String, correo: String, direccion: String) {
@@ -82,57 +88,55 @@ class PerfilViewModel(
         _direccion.value = direccion
     }
 
-    fun guardarDatos() {
+    fun guardarTodo(context: Context) {
         viewModelScope.launch {
             val id = currentUserId
-            if (id != null) {
-                val usuarioUpdate = Usuario(
-                    id = id,
+            if (id == null) return@launch
+
+            _mensaje.value = "Procesando..."
+
+            var urlFinalImagen = _usuario.value?.imagen
+
+            if (_fotoPendienteUri != null) {
+                _mensaje.value = "Subiendo imagen a la nube..."
+                val urlSubida = repository.subirImagenImgBB(context, _fotoPendienteUri!!)
+
+                if (urlSubida != null) {
+                    urlFinalImagen = urlSubida
+                } else {
+                    _mensaje.value = "Error al subir la imagen. Intenta de nuevo."
+                    return@launch
+                }
+            }
+
+            _mensaje.value = "Guardando perfil..."
+
+            val usuarioUpdate = Usuario(
+                id = id,
+                nombre = _nombre.value,
+                correo = _correo.value,
+                direccion = _direccion.value,
+                imagenUsuario = urlFinalImagen
+            )
+
+            val exito = repository.actualizarDatos(id, usuarioUpdate)
+
+            if (exito) {
+                _mensaje.value = "¡Perfil actualizado correctamente!"
+                _editando.value = false
+                _fotoPendienteUri = null
+
+                // Actualizamos la UI
+                _usuario.value = _usuario.value?.copy(
                     nombre = _nombre.value,
                     correo = _correo.value,
-                    direccion = _direccion.value
+                    direccion = _direccion.value,
+                    imagen = urlFinalImagen
                 )
-
-                val exito = repository.actualizarDatos(id, usuarioUpdate)
-                if (exito) {
-                    _mensaje.value = "Datos actualizados correctamente"
-                    _editando.value = false
-                    _usuario.value = _usuario.value?.copy(
-                        nombre = _nombre.value,
-                        correo = _correo.value,
-                        direccion = _direccion.value
-                    )
-                } else {
-                    _mensaje.value = "Error al actualizar datos"
-                }
+            } else {
+                _mensaje.value = "Error al guardar los datos."
             }
         }
-    }
-
-    fun subirFoto(bitmap: Bitmap) {
-        viewModelScope.launch {
-            val id = currentUserId
-            if (id != null) {
-                val base64 = bitmapToBase64(bitmap)
-                val exito = repository.subirFotoPerfil(id, base64)
-
-                if (exito) {
-                    _mensaje.value = "Foto actualizada correctamente"
-                    // Recargar usuario para ver la nueva foto
-                    val u = repository.obtenerUsuarioPorId(id)
-                    u?.let { _usuario.value = PerfilUiState(it.nombre, it.correo, it.direccion?:"", it.imagenUsuario) }
-                } else {
-                    _mensaje.value = "Error al subir foto"
-                }
-            }
-        }
-    }
-
-    private fun bitmapToBase64(bitmap: Bitmap): String {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream)
-        val byteArray = stream.toByteArray()
-        return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
     fun eliminarCuenta() {

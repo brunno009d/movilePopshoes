@@ -2,7 +2,9 @@ package com.example.movilepopshoes.data.remote
 
 import com.example.movilepopshoes.data.remote.model.Calzado
 import com.example.movilepopshoes.data.remote.model.CompraRequest
+import com.example.movilepopshoes.data.remote.model.ImgBBResponse
 import com.example.movilepopshoes.data.remote.model.Usuario
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -11,6 +13,10 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import  okhttp3.ResponseBody
+import retrofit2.http.Multipart
+import retrofit2.http.Part
+import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface ApiService {
 
@@ -36,16 +42,25 @@ interface ApiService {
         @Body usuario: Usuario
     ): Response<Usuario>
 
-    @PATCH("api/usuarios/{id}/foto")
-    suspend fun actualizarFotoPerfil(
-        @Path("id") id: Int,
-        @Body body: Map<String, String>
-    ): Response<Any>
+
 
     @DELETE("api/usuarios/{id}")
     suspend fun eliminarUsuario(@Path("id") id: Int): Response<Void>
 
     @POST("api/compras")
-
     suspend fun crearCompra(@Body compra: CompraRequest): Response<ResponseBody>
+
+    @Multipart
+    @POST
+    suspend fun subirImagenImgBB(
+        @Url url: String = "https://api.imgbb.com/1/upload",
+        @Part image: MultipartBody.Part,
+        @Query("key") apiKey: String
+    ): Response<ImgBBResponse>
+
+    @PATCH("api/usuarios/{id}/foto")
+    suspend fun actualizarFotoPerfil(
+        @Path("id") id: Int,
+        @Body body: Map<String, String>
+    ): Response<Any>
 }

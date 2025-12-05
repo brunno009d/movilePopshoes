@@ -3,14 +3,10 @@ package com.example.movilepopshoes.ui.screen
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -30,11 +26,13 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.movilepopshoes.navigation.Screen
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.PerfilViewModel
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,8 +50,10 @@ fun ProfileScreen(
     val editando by viewModel.editando.collectAsState()
 
     var mostrarDialogoEliminar by remember { mutableStateOf(false) }
-    var imageUri by remember { mutableStateOf<Uri?>(null) }
-    var bitmapPreview by remember { mutableStateOf<Bitmap?>(null) }
+
+    // Variables para previsualización local (antes de subir)
+    var previewUri by remember { mutableStateOf<Uri?>(null) }
+    var previewBitmap by remember { mutableStateOf<Bitmap?>(null) }
 
     val context = LocalContext.current
 
@@ -64,10 +64,16 @@ fun ProfileScreen(
         }
     }
 
-
     val takePictureLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicturePreview()
-    ) { bmp -> if (bmp != null) { bitmapPreview = bmp; imageUri = null } }
+    ) { bmp ->
+        if (bmp != null) {
+            previewBitmap = bmp
+            previewUri = null
+            val tempUri = guardarBitmapEnCache(context, bmp)
+            viewModel.onFotoSeleccionada(tempUri)
+        }
+    }
 
     val permissionsLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -75,7 +81,13 @@ fun ProfileScreen(
 
     val selectImageLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
-    ) { uri -> if (uri != null) { imageUri = uri; bitmapPreview = null } }
+    ) { uri ->
+        if (uri != null) {
+            previewUri = uri
+            previewBitmap = null
+            viewModel.onFotoSeleccionada(uri)
+        }
+    }
 
     if (mostrarDialogoEliminar) {
         AlertDialog(
@@ -107,36 +119,24 @@ fun ProfileScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     when {
-                        bitmapPreview != null -> Image(bitmap = bitmapPreview!!.asImageBitmap(), contentDescription = "Nueva", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
-                        imageUri != null -> AsyncImage(model = imageUri, contentDescription = "Nueva", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                        previewBitmap != null -> Image(bitmap = previewBitmap!!.asImageBitmap(), contentDescription = "Nueva", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+                        previewUri != null -> AsyncImage(model = previewUri, contentDescription = "Nueva", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+
                         usuario?.imagen != null -> AsyncImage(model = ImageRequest.Builder(LocalContext.current).data(usuario!!.imagen).crossfade(true).build(), contentDescription = "Actual", modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
+
                         else -> Icon(Icons.Default.Person, "Sin foto", Modifier.size(80.dp), tint = MaterialTheme.colorScheme.primary)
                     }
                 }
 
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    OutlinedButton(onClick = {
-                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) takePictureLauncher.launch(null)
-                        else permissionsLauncher.launch(Manifest.permission.CAMERA)
-                    }) { Text("📷 Cámara") }
-                    OutlinedButton(onClick = { selectImageLauncher.launch("image/*") }) { Text("🖼️ Galería") }
-                }
+                if (editando) {
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                        OutlinedButton(onClick = {
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) takePictureLauncher.launch(null)
+                            else permissionsLauncher.launch(Manifest.permission.CAMERA)
+                        }) { Text("📷 Cámara") }
 
-                if (bitmapPreview != null || imageUri != null) {
-                    Button(
-                        onClick = {
-                            if (bitmapPreview != null) viewModel.subirFoto(bitmapPreview!!)
-                            else if (imageUri != null) {
-                                try {
-                                    val bmp = if (Build.VERSION.SDK_INT < 28) MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
-                                    else ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, imageUri!!))
-                                    viewModel.subirFoto(bmp)
-                                } catch (e: Exception) { }
-                            }
-                            bitmapPreview = null; imageUri = null
-                        },
-                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiary)
-                    ) { Text("💾 Guardar Nueva Foto") }
+                        OutlinedButton(onClick = { selectImageLauncher.launch("image/*") }) { Text("🖼️ Galería") }
+                    }
                 }
 
                 Divider()
@@ -155,21 +155,43 @@ fun ProfileScreen(
                 OutlinedTextField(value = correo, onValueChange = { viewModel.onCorreoChange(it) }, label = { Text("Correo") }, modifier = Modifier.fillMaxWidth(), singleLine = true, enabled = editando, colors = disabledColors)
                 OutlinedTextField(value = direccion, onValueChange = { viewModel.onDireccionChange(it) }, label = { Text("Dirección") }, modifier = Modifier.fillMaxWidth(), enabled = editando, colors = disabledColors)
 
+                // BOTONES DE ACCIÓN
                 if (editando) {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Button(onClick = { viewModel.cancelarEdicion() }, modifier = Modifier.weight(1f), colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)) { Text("Cancelar") }
-                        Button(onClick = { viewModel.guardarDatos() }, modifier = Modifier.weight(1f)) { Text("Guardar") }
+                        Button(
+                            onClick = {
+                                viewModel.cancelarEdicion()
+                                previewUri = null
+                                previewBitmap = null
+                            },
+                            modifier = Modifier.weight(1f),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color.Gray)
+                        ) { Text("Cancelar") }
+
+                        Button(
+                            onClick = {
+                                viewModel.guardarTodo(context)
+                            },
+                            modifier = Modifier.weight(1f)
+                        ) { Text("Guardar Cambios") }
                     }
+                } else {
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Button(onClick = { viewModel.logout(); mainViewModel.navigateTo(Screen.Inicio) }, modifier = Modifier.fillMaxWidth()) { Text("Cerrar sesión") }
+                    OutlinedButton(onClick = { mostrarDialogoEliminar = true }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error), border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.error)) { Text("Eliminar Cuenta") }
                 }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Button(onClick = { viewModel.logout(); mainViewModel.navigateTo(Screen.Inicio) }, modifier = Modifier.fillMaxWidth()) { Text("Cerrar sesión") }
-
-                OutlinedButton(onClick = { mostrarDialogoEliminar = true }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error), border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.error)) { Text("Eliminar Cuenta") }
 
                 Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }
+}
+
+fun guardarBitmapEnCache(context: android.content.Context, bitmap: Bitmap): Uri {
+    val file = File(context.cacheDir, "foto_temp_${System.currentTimeMillis()}.jpg")
+    file.outputStream().use { out ->
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        out.flush()
+    }
+    return Uri.fromFile(file)
 }

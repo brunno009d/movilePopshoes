@@ -1,73 +1,62 @@
 package com.example.movilepopshoes.data.remote.repository
 
+import android.content.Context
+import android.net.Uri
 import android.util.Log
 import com.example.movilepopshoes.data.remote.ApiClient
 import com.example.movilepopshoes.data.remote.model.Usuario
+import com.example.movilepopshoes.utils.uriToMultipart
 
 class UserRepository {
 
     private val api = ApiClient.service
 
+    private val IMGBB_API_KEY = "226ad2357a913c124aec6c2eb0b23e1b"
+
+    suspend fun subirImagenImgBB(context: Context, imageUri: Uri): String? {
+        return try {
+            val multipartImage = uriToMultipart(context, imageUri)
+
+            val response = api.subirImagenImgBB(
+                image = multipartImage,
+                apiKey = IMGBB_API_KEY
+            )
+
+            if (response.isSuccessful && response.body() != null) {
+                val url = response.body()!!.data.url
+                Log.d("API_REPO", "Foto subida a ImgBB: $url")
+                url // Retornamos la URL
+            } else {
+                Log.e("API_REPO", "Error ImgBB: ${response.errorBody()?.string()}")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("API_REPO", "Excepción subir foto: ${e.message}")
+            null
+        }
+    }
+
+
     suspend fun registrarUsuario(usuario: Usuario): Boolean {
         return try {
             val response = api.registrarUsuario(usuario)
-            if (response.isSuccessful) {
-                Log.d("API_USER", "Registro exitoso: ${response.body()}")
-                true
-            } else {
-                Log.e("API_USER", "Error registro: ${response.code()} - ${response.errorBody()?.string()}")
-                false
-            }
-        } catch (e: Exception) {
-            Log.e("API_USER", "Fallo conexión registro: ${e.message}")
-            false
-        }
+            response.isSuccessful
+        } catch (e: Exception) { false }
     }
 
     suspend fun login(correo: String, clave: String): Usuario? {
         return try {
-            val usuarioLogin = Usuario(
-                nombre = "",
-                correo = correo,
-                clave = clave
-            )
-
-            val response = api.login(usuarioLogin)
-
-            if (response.isSuccessful) {
-                Log.d("API_USER", "Login exitoso: ${response.body()}")
-                response.body()
-            } else {
-                Log.e("API_USER", "Error login: ${response.code()}")
-                null
-            }
-        } catch (e: Exception) {
-            Log.e("API_USER", "Fallo conexion login: ${e.message}")
-            null
-        }
+            val u = Usuario(nombre="", correo=correo, clave=clave)
+            val response = api.login(u)
+            if (response.isSuccessful) response.body() else null
+        } catch (e: Exception) { null }
     }
 
     suspend fun obtenerUsuarioPorId(id: Int): Usuario? {
         return try {
             val response = api.obetenerUsuarioPorId(id)
-            if (response.isSuccessful) {
-                response.body()
-            } else {
-                Log.e("API_USER", "Error obteniendo usuario $id: ${response.code()}")
-                null
-            }
-        } catch (e: Exception) {
-            Log.e("API_USER", "Fallo conexion obtener usuario: ${e.message}")
-            null
-        }
-    }
-
-    suspend fun subirFotoPerfil(id: Int, imagenBase64: String): Boolean {
-        return try {
-            val body = mapOf("imagenUsuario" to imagenBase64)
-            val response = api.actualizarFotoPerfil(id, body)
-            if (response.isSuccessful) true else false
-        } catch (e: Exception) { false }
+            if (response.isSuccessful) response.body() else null
+        } catch (e: Exception) { null }
     }
 
     suspend fun actualizarDatos(id: Int, usuario: Usuario): Boolean {
@@ -85,19 +74,11 @@ class UserRepository {
             false
         }
     }
+
     suspend fun eliminarCuenta(id: Int): Boolean {
         return try {
             val response = api.eliminarUsuario(id)
-            if (response.isSuccessful) {
-                Log.d("API_USER", "Usuario eliminado correctamente")
-                true
-            } else {
-                Log.e("API_USER", "Error al eliminar usuario: ${response.code()}")
-                false
-            }
-        } catch (e: Exception) {
-            Log.e("API_USER", "Excepción al eliminar: ${e.message}")
-            false
-        }
+            response.isSuccessful
+        } catch (e: Exception) { false }
     }
 }
