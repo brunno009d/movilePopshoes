@@ -62,8 +62,14 @@ class UserRepository {
         }
     }
 
-    // --- AQUÍ ESTÁ LA FUNCIÓN QUE NECESITAS ---
-    // Asegúrate de que esté dentro de la clase, pero fuera de las otras funciones
+    suspend fun subirFotoPerfil(id: Int, imagenBase64: String): Boolean {
+        return try {
+            val body = mapOf("imagenUsuario" to imagenBase64)
+            val response = api.actualizarFotoPerfil(id, body)
+            if (response.isSuccessful) true else false
+        } catch (e: Exception) { false }
+    }
+
     suspend fun actualizarDatos(id: Int, usuario: Usuario): Boolean {
         return try {
             val response = api.actualizarDatosUsuario(id, usuario)
@@ -76,6 +82,21 @@ class UserRepository {
             }
         } catch (e: Exception) {
             Log.e("API_USER", "Excepción al actualizar: ${e.message}")
+            false
+        }
+    }
+    suspend fun eliminarCuenta(id: Int): Boolean {
+        return try {
+            val response = api.eliminarUsuario(id)
+            if (response.isSuccessful) {
+                Log.d("API_USER", "Usuario eliminado correctamente")
+                true
+            } else {
+                Log.e("API_USER", "Error al eliminar usuario: ${response.code()}")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("API_USER", "Excepción al eliminar: ${e.message}")
             false
         }
     }
