@@ -2,13 +2,14 @@ package com.example.movilepopshoes.data.remote
 
 import androidx.core.view.RoundedCornerCompat
 import com.example.movilepopshoes.data.remote.model.Calzado
+import com.example.movilepopshoes.data.remote.model.CompraRequest
 import com.example.movilepopshoes.data.remote.model.Usuario
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface ApiService {
 
@@ -28,6 +29,10 @@ interface ApiService {
 
     @POST("api/usuarios/login")
     suspend fun login(@Body usuario: Usuario): Response<Usuario>
+
+    // Compra
+    @POST("api/compras")
+    suspend fun crearCompra(@Body compra: CompraRequest): Response<ResponseBody>
 
 
 }

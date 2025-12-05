@@ -5,12 +5,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.movilepopshoes.data.EstadoDataStore
 import com.example.movilepopshoes.data.remote.repository.CalzadoRepository
 import com.example.movilepopshoes.data.remote.repository.CarritoRepository
+import com.example.movilepopshoes.data.remote.repository.CompraRepository
 import com.example.movilepopshoes.data.remote.repository.UserRepository
 
 class ViewModelFactory(
     private val calzadoRepository: CalzadoRepository,
     private val userRepository: UserRepository,
     private val carritoRepository: CarritoRepository,
+    private val compraRepository: CompraRepository,
     private val dataStore: EstadoDataStore
 ) : ViewModelProvider.Factory {
 
@@ -29,7 +31,7 @@ class ViewModelFactory(
                 CatalogoViewModel(calzadoRepository) as T
             }
             modelClass.isAssignableFrom(CarritoViewModel::class.java) -> {
-                CarritoViewModel(carritoRepository) as T
+                CarritoViewModel(carritoRepository, compraRepository, dataStore) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel Class")
         }
