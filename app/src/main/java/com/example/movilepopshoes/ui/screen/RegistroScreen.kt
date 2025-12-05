@@ -40,7 +40,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.movilepopshoes.navigation.Screen
 import com.example.movilepopshoes.viewmodel.MainViewModel
 import com.example.movilepopshoes.viewmodel.UsuarioViewModel
