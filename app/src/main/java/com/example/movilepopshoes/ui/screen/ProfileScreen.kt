@@ -110,8 +110,9 @@ fun ProfileScreen(
         ) {
             if (!logueado) {
                 Spacer(modifier = Modifier.height(32.dp))
-                Text("Inicia sesión para ver tu perfil")
+                Text("Inicia sesion para ver tu perfil")
                 Button(onClick = { mainViewModel.navigateTo(Screen.Inicio) }, modifier = Modifier.fillMaxWidth()) { Text("Iniciar sesión") }
+                Button(onClick = { mainViewModel.navigateTo(Screen.Registro) }, modifier = Modifier.fillMaxWidth()) { Text("Registrarse") }
             } else {
 
                 Box(
@@ -133,7 +134,7 @@ fun ProfileScreen(
                         OutlinedButton(onClick = {
                             if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) takePictureLauncher.launch(null)
                             else permissionsLauncher.launch(Manifest.permission.CAMERA)
-                        }) { Text("📷 Cámara") }
+                        }) { Text("📷 Camara") }
 
                         OutlinedButton(onClick = { selectImageLauncher.launch("image/*") }) { Text("🖼️ Galería") }
                     }
@@ -155,7 +156,6 @@ fun ProfileScreen(
                 OutlinedTextField(value = correo, onValueChange = { viewModel.onCorreoChange(it) }, label = { Text("Correo") }, modifier = Modifier.fillMaxWidth(), singleLine = true, enabled = editando, colors = disabledColors)
                 OutlinedTextField(value = direccion, onValueChange = { viewModel.onDireccionChange(it) }, label = { Text("Dirección") }, modifier = Modifier.fillMaxWidth(), enabled = editando, colors = disabledColors)
 
-                // BOTONES DE ACCIÓN
                 if (editando) {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         Button(

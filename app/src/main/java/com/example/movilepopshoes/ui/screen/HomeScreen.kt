@@ -50,51 +50,12 @@ fun HomeScreen(
     mainViewModel: MainViewModel,
     catalogoViewModel: CatalogoViewModel
 ) {
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                Text("Menú", modifier = Modifier.padding(16.dp))
-                NavigationDrawerItem(
-                    label = { Text("Ir al perfil") },
-                    selected = false,
-                    onClick = {
-                        scope.launch { drawerState.close() }
-                        mainViewModel.navigateTo(Screen.Profile)
-                    }
-                )
-                NavigationDrawerItem(
-                    label = { Text("Registro") },
-                    selected = false,
-                    onClick = {
-                        scope.launch { drawerState.close() }
-                        mainViewModel.navigateTo(Screen.Registro)
-                    }
-                )
-                NavigationDrawerItem(
-                    label = { Text("Inicio Sesión") },
-                    selected = false,
-                    onClick = {
-                        scope.launch { drawerState.close() }
-                        mainViewModel.navigateTo(Screen.Inicio)
-                    }
-                )
-            }
-        }
-    ) {
 
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("PopShoes")},
-                    navigationIcon = {
-                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
-                        }
-                    }
+                    title = { Text("PopShoes") }
                 )
             }
         ) { innerPadding ->
@@ -138,5 +99,4 @@ fun HomeScreen(
                 }
             }
         }
-    }
 }
